@@ -1,0 +1,288 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+    height: 50px; /* Set a fixed height for the list items */
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+li img {
+    width: 100px;
+    height: inherit;
+    align-items: center;
+}
+
+header{
+    background-color: darkcyan;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header img{
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    padding: 50px;
+    padding-bottom: 5px;
+}
+
+header p{
+    text-align: center;
+    color: white;
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+#innercontent{
+    margin: 0px 200px 0px 200px;
+}
+
+.clientdetail{
+    margin-top: 25px;
+    margin-left: 50px;
+    font-size: 18px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: gray;
+    font-weight: bold;
+    padding-bottom: 50px;
+}
+.clientdetail h5{
+    font-family: verdana;
+    font-weight: normal;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.clientdetail p{
+    font-size: 18px;
+    color: black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+}
+
+td {
+    padding: 10px;}
+
+p {
+    margin: 0;
+}
+
+input[type="text"] {
+    height: 40px;
+    font-size: 20px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+    transition: border 0.3s ease-in-out;
+  }
+
+  /* Styles when the text input is focused */
+  input[type="text"]:focus {
+    border: 1px solid black;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  }
+
+  input[type="number"] {
+    height: 40px;
+    font-size: 20px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+    transition: border 0.3s ease-in-out;
+  }
+
+  /* Styles when the text input is focused */
+  input[type="number"]:focus {
+    border: 1px solid black;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  }
+
+  input[type="tel"] {
+    height: 40px;
+    font-size: 20px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+    transition: border 0.3s ease-in-out;
+  }
+
+  /* Styles when the text input is focused */
+  input[type="tel"]:focus {
+    border: 1px solid black;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  }
+
+
+input[type="date"]{
+    background-color: #e0e0e0;
+    border: #e0e0e0;
+    height: 40px;
+}
+
+input[type="date"]:focus{
+outline: none;
+border: 1px solid black;
+}
+
+#innercontent label{
+    font-family: verdana;
+    color: gray;
+}
+
+#innercontent input{
+    margin-top: 10px;
+    margin-bottom: 15px;
+    height: 29x;
+    padding: 4px;
+}
+
+#innercontent input[type="text"]:focus{
+    border: black;
+    outline: none;
+}
+
+#innercontent button{
+    color:white;
+    background-color: rgb(0, 183, 255);
+    margin-left: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(0, 183, 255);
+    outline: none;
+    cursor: pointer;
+    width: 100px;
+}
+
+ #innercontent button:hover{
+    background-color:rgb(12, 168, 230);
+    color: white;
+} 
+
+#extras button{
+width:150px;
+height:40px
+}
+
+#extras button:hover{
+background-color: rgb(211, 209, 209);
+}
+
+#extras input{
+    width: 250px;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.calculate{
+    color: gray;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.calculate h5{
+    font-family: verdana;
+    font-weight: normal;
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding: 15px;
+    padding-left: 0;
+}
+
+.calculate p{
+font-weight: bold;
+}
+
+.calculate input{
+    height: 35px;
+    width: 350px;
+    outline: 0;
+}
+
+#cancel-button{
+    color: white;
+    background-color: rgb(223, 83, 64);
+    width: 200px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+#cancel-button:hover{
+    background-color: rgb(189, 31, 31);
+}
+
+#print-button{
+    color: white;
+    background-color: rgb(64, 223, 64);
+    width: 200px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-left: 25px;
+
+}
+
+#print-button:hover{
+    background-color: rgb(39, 182, 39);
+}
