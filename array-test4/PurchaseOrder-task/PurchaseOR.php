@@ -1,3 +1,41 @@
+<?php
+session_start();
+
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+} else {
+    header("Location: ../login.php"); // Redirect to login page if not logged in
+    exit();
+}
+
+// Establish a database connection (assuming you're using MySQL)
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "kyrol";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve the current highest quotation number
+$sql = "SELECT MAX(PO_Number) AS max_quotation FROM client_purchaseOrder";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $current_quotation_number = $row['max_quotation'];
+    $new_quotation_number = $current_quotation_number + 1;
+} else {
+    // If there are no records yet, start from 1
+    $new_quotation_number = 1;
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +43,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quotation Process</title>
     <link rel="stylesheet" href="PurchaseOR.css">
+    <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
     <ul>
@@ -28,7 +67,7 @@
                 <table>
                     <tr>
                         <td><p>PO NO:</p></td>
-                        <td><p><input type="number" name="PO-NO" id="att" required></p></td>
+                        <td><p><input type="number" name="PO-NO" id="att" value="<?php echo $new_quotation_number; ?>" required readonly></p></td>
                     </tr>
                     <tr>
                         <td><p>Date</p></td>
@@ -62,23 +101,23 @@
                 <table>
                     <tr>
                         <td><p>Requistioner:</p></td>
-                        <td><p><input type="text" name="Req" required></p></td>
+                        <td><p><input type="text" name="Req"></p></td>
                     </tr>
                     <tr>
                         <td><p>Ship VIA:</p></td>
-                        <td><p><input type="text" name="ShipV" required></p></td> 
+                        <td><p><input type="text" name="ShipV"></p></td> 
                     </tr>
                     <tr>
                         <td><p>F.O.B:</p></td>
-                        <td><p><input type="text" name="Fob" required></p></td>
+                        <td><p><input type="text" name="Fob"></p></td>
                     </tr>
                     <tr>
                         <td><p>Shipping Terms:</p></td>
-                        <td><p><input type="text" name="Sterm" required></p></td>
+                        <td><p><input type="text" name="Sterm"></p></td>
                     </tr>
                     <tr>
                         <td><p>Shipping Date:</p></td>
-                        <td><p><input type="date" name="Sdate" required></p></td>
+                        <td><p><input type="date" name="Sdate"></p></td>
                     </tr>
                 </table>
             </div>

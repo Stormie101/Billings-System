@@ -93,6 +93,25 @@ p {
     margin: 0;
 }
 
+select {
+    height: 40px;
+    font-size: 20px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+    transition: border 0.3s ease-in-out;
+  }
+
+  /* Styles when the text input is focused */
+  select:focus {
+    border: 1px solid black;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  }
+
+
 input[type="text"] {
     height: 40px;
     font-size: 20px;

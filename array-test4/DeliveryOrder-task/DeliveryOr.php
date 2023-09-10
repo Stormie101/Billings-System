@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+} else {
+    header("Location: ../login.php"); // Redirect to login page if not logged in
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quotation Process</title>
     <link rel="stylesheet" href="DeliveryOr.css">
+    <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
     <ul>

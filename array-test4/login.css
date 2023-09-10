@@ -1,0 +1,104 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+    height: 50px; /* Set a fixed height for the list items */
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+li img {
+    width: 100px;
+    height: inherit;
+    align-items: center;
+}
+
+header{
+    background-color: darkcyan;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header img{
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    padding: 50px;
+    padding-bottom: 5px;
+}
+
+header p{
+    text-align: center;
+    color: white;
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+/* login form */
+.login-form {
+    max-width: 400px;
+    margin: 0 auto; /* center the login form horizontally */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #ccc;
+    text-align: center;
+    margin-top: 5%;
+  }
+  
+  .login-form h2 {
+    margin-top: 35px;
+    margin-bottom: 35px;
+    font-size: 35px;
+  }
+  
+  .login-form label {
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .login-form input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .login-form #login-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .login-form #login-button:hover{
+    background-color: #56d15a;
+    border-color: #56d15a;
+  }

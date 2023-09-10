@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+} else {
+    header("Location: login.php"); // Redirect to login page if not logged in
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,7 +121,7 @@
 <div class="header">
   <img src="kyrol.png" width="450px" height="150px">
     <h1>KYROL SECURITY LABS</h1>
-    <p>BILLING SYSTEM</p>
+    <p>BILLING SYSTEM 0.2</p>
   </div>
 
 <div class="container-fluid text-center">    
@@ -120,7 +131,7 @@
     </div>
     <div class="col-sm-8 text-left" style="margin: 0px 300px 0px 300px;"> 
 
-      <h2>WELCOME</h2>
+      <h2>Welcome, <?php echo $username; ?></h2> <a href="logout.php" id="log-out">Log-out</a>
       <hr>
     <br><br><br>
     

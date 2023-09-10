@@ -14,8 +14,20 @@ body {
     font-size: 13px;
 }
 
+#log-out{
+    border: 1px solid red;
+    background-color: red;
+    color: white;
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 8px;
+    text-decoration: none;
+}
 
-
+#log-out:hover{
+    background-color: rgb(218, 32, 32);
+    border-color: rgb(218, 32, 32);
+}
 
 .pure-img-responsive {
     max-width: 100%;

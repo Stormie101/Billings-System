@@ -1,4 +1,13 @@
 <?php
+session_start();
+
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+} else {
+    header("Location: ../login.php"); // Redirect to login page if not logged in
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Establish a database connection (replace with your actual database credentials)
@@ -53,6 +62,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="PurchaseOR2.css">
+    <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
     <ul>

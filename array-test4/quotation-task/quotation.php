@@ -1,3 +1,41 @@
+<?php
+session_start();
+
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+} else {
+    header("Location: ../login.php"); // Redirect to login page if not logged in
+    exit();
+}
+
+// Establish a database connection (assuming you're using MySQL)
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "kyrol";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve the current highest quotation number
+$sql = "SELECT MAX(QNo) AS max_quotation FROM client_quotation";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $current_quotation_number = $row['max_quotation'];
+    $new_quotation_number = $current_quotation_number + 1;
+} else {
+    // If there are no records yet, start from 1
+    $new_quotation_number = 1;
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +43,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quotation Process</title>
     <link rel="stylesheet" href="quotation.css">
+    <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
     <ul>
@@ -49,7 +88,7 @@
                 <table>
                     <tr>
                         <td><p>Quotation No:</p></td>
-                        <td><p><input type="number" name="QNo" required></p></td>
+                        <td><p><input type="number" name="QNo" value="<?php echo $new_quotation_number; ?>" required readonly></p></td>
                     </tr>
                     <tr>
                         <td><p>Date:</p></td>
@@ -58,12 +97,27 @@
                     </tr>
                     <tr>
                         <td><p>Sales Per:</p></td>
-                        <td><p><input type="text" name="SaleP" required></p></td>
+                        <!-- <td><p><input type="text" name="SaleP" required></p></td> -->
+                        <td>
+                        <select id="SaleP" name="SaleP" required>
+                            <option value="Elle">Elle</option>
+                            <option value="Syaf">Syaf</option>
+                            <option value="Fatin">Fatin</option>
+                            <option value="Nizam">Nizam</option>
+                        </select>
+                        </td>
                     </tr>
                     <tr>
                         <td><p>Pages:</p></td>
-                        <td><p><input type="number" name="Pages" required></p></td>
-                        <!-- changes -->
+                        <!-- <td><p><input type="number" name="Pages" required></p></td> -->
+                        <td>
+                        <select id="Pages" name="Pages" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        </td>
                     </tr>
                 </table>
             </div>
