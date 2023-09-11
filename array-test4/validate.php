@@ -17,7 +17,7 @@ $username = $_POST['username'];
 $adminpassword = $_POST['adminPassword'];
 
 // SQL query to check if the username and password match
-$sql = "SELECT * FROM admininfo WHERE username='$username' AND adminPassword='$adminpassword'";
+$sql = "SELECT * FROM admin WHERE username='$username' AND adminPassword='$adminpassword'";
 $result = $conn->query($sql);
 
 if ($result->num_rows == 1) {

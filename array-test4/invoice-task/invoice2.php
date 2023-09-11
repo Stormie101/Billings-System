@@ -65,14 +65,14 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Invoice Process</title>
     <link rel="stylesheet" href="invoice2.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
     <ul>
-        <li><a href="../index.html"><img src="../kyrol.png" alt=""></a></li>
-        <li><a href="../index.html">HOME</a></li>
+        <li><a href="../index.php"><img src="../kyrol.png" alt=""></a></li>
+        <li><a href="../index.php">HOME</a></li>
         <li><a href="invoice.php">INVOICE</a></li>
         <li><a href="../quotation-task/quotation.php">QUOTATION</a></li>
         <li><a href="about.asp">P.O</a></li>

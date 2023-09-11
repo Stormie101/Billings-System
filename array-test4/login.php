@@ -21,15 +21,14 @@
     <div class="login-form">
         <h2>Login</h2>
         <form action="validate.php" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" autocomplete="off" required>
 
-          <label for="username">Username:</label>
-          <input type="text" name="username" id="username" required>
-
-          <label for="CustPassword">Password:</label>
-          <input type="text" name="adminPassword" id="adminPassword" required>
-        
-          <input type="submit" name="login" value="Login" id="login-button">
-        </form>
+    <label for="adminPassword">Password:</label>
+    <input type="password" name="adminPassword" id="adminPassword" autocomplete="off" required> <!-- Note the type="password" -->
+    
+    <input type="submit" name="login" value="Login" id="login-button">
+</form>
       </div>
 </div>
 </body>

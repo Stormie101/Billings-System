@@ -7,6 +7,46 @@ if(isset($_SESSION['username'])){
     header("Location: ../login.php"); // Redirect to login page if not logged in
     exit();
 }
+
+// Establish a database connection (assuming you're using MySQL)
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "kyrol";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve the current highest quotation number
+$sql = "SELECT MAX(DOn) AS max_quotation FROM client_delivery";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $current_quotation_number = $row['max_quotation'];
+    $new_quotation_number = $current_quotation_number + 1;
+} else {
+    // If there are no records yet, start from 1
+    $new_quotation_number = 1;
+}
+
+// Retrieve the current highest quotation number
+$sqls = "SELECT MAX(INo) AS PO FROM client_delivery";
+$results = $conn->query($sqls);
+
+if ($results->num_rows > 0) {
+    $rows = $results->fetch_assoc();
+    $current_PO_number = $rows['PO'];
+    $new_PO_number = $current_PO_number + 1;
+} else {
+    // If there are no records yet, start from 1
+    $new_PO_number = 1;
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -14,14 +54,56 @@ if(isset($_SESSION['username'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation Process</title>
+    <title>DO Process</title>
     <link rel="stylesheet" href="DeliveryOr.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#att').on('blur', function() {
+        var attValue = $(this).val();
+
+        // Send an AJAX request to fetch tel and email based on att
+        $.ajax({
+            url: 'client-detail.php', // Create this PHP file
+            type: 'POST',
+            data: {att: attValue},
+            success: function(data) {
+                var details = JSON.parse(data);
+
+                // Update the tel and email fields
+                $('#tel').val(details.tel);
+                $('#email').val(details.email);
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $('#compName').on('blur', function() {
+        var CNValue = $(this).val();
+
+        // Send an AJAX request to fetch tel and email based on att
+        $.ajax({
+            url: 'company-details.php', // Create this PHP file
+            type: 'POST',
+            data: {compName: CNValue},
+            success: function(data) {
+                var detailsz = JSON.parse(data);
+
+                // Update the tel and email fields
+                $('#compStreet').val(detailsz.compStreet);
+                $('#compCity').val(detailsz.compCity);
+                $('#compState').val(detailsz.compState);
+            }
+        });
+    });
+});
+</script>
 </head>
 <body>
     <ul>
-        <li><a href="../index.html"><img src="../kyrol.png" alt=""></a></li>
-        <li><a href="../index.html">HOME</a></li>
+        <li><a href="../index.php"><img src="../kyrol.png" alt=""></a></li>
+        <li><a href="../index.php">HOME</a></li>
         <li><a href="news.asp">INVOICE</a></li>
         <li><a href="../quotation-task/quotation.php">QUOTATION</a></li>
         <li><a href="about.asp">P.O</a></li>
@@ -44,11 +126,11 @@ if(isset($_SESSION['username'])){
                     </tr>
                     <tr>
                         <td><p>TEL:</p></td>
-                        <td><p><input type="tel" name="tel" required></p></td>
+                        <td><p><input type="tel" name="tel" id="tel" required></p></td>
                     </tr>
                     <tr>
                         <td><p>EMAIL:</p></td>
-                        <td><p><input type="text" name="email" required></p></td>
+                        <td><p><input type="text" name="email" id="email" required></p></td>
                     </tr>
                     <tr>
                         <td><p>REF:</p></td>
@@ -62,7 +144,7 @@ if(isset($_SESSION['username'])){
                     <tr>
                         <!-- NEW -->
                         <td><p>D.O No:</p></td>
-                        <td><p><input type="number" name="DOn" required></p></td>
+                        <td><p><input type="number" name="DOn" value="<?php echo $new_quotation_number; ?>" required readonly></p></td>
                     </tr>
                     <tr>
                         <td><p>Date:</p></td>
@@ -74,16 +156,32 @@ if(isset($_SESSION['username'])){
                     </tr>
                     <tr>
                         <td><p>Sales Per:</p></td>
-                        <td><p><input type="text" name="SaleP" required></p></td>
+                        <!-- <td><p><input type="text" name="SaleP" required></p></td> -->
+                        <td>
+                        <select id="SaleP" name="SaleP" required>
+                            <option value="Elle">Elle</option>
+                            <option value="Syaf">Syaf</option>
+                            <option value="Fatin">Fatin</option>
+                            <option value="Nizam">Nizam</option>
+                        </select>
+                        </td>
                     </tr>
                     <tr>
                         <td><p>Inv No:</p></td>
-                        <td><p><input type="number" name="INo" required></p></td>
+                        <td><p><input type="number" name="INo" value="<?php echo $new_PO_number; ?>" required readonly></p></td>
                         <!-- NEW -->
                     </tr>
                     <tr>
                         <td><p>Pages:</p></td>
-                        <td><p><input type="number" name="Pages" required></p></td>
+                        <!-- <td><p><input type="number" name="Pages" required></p></td> -->
+                        <td>
+                        <select id="Pages" name="Pages" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -92,24 +190,24 @@ if(isset($_SESSION['username'])){
                 <table>
                     <tr>
                         <td><p>Company:</p></td>
-                        <td><p><input type="text" name="compName" required></p></td>
+                        <td><p><input type="text" name="compName" id="compName" required></p></td>
                     </tr>
                     <tr>
                         <td><p>Street:</p></td>
-                        <td><p><input type="text" name="compStreet" required></p></td>
+                        <td><p><input type="text" name="compStreet" id="compStreet" required></p></td>
                     </tr>
                     <tr>
                         <td><p>City:</p></td>
-                        <td><p><input type="text" name="compCity" required></p></td>
+                        <td><p><input type="text" name="compCity" id="compCity" required></p></td>
                     </tr>
                     <tr>
                         <td><p>State:</p></td>
-                        <td><p><input type="text" name="compState" required></p></td>
+                        <td><p><input type="text" name="compState" id="compState" required></p></td>
                     </tr>
                 </table>
             </div>
         
-        <label>Enter the number of quotations (10 max):</label>
+        <label>Enter the number of item (10 max):</label>
         <input type="number" name="numQuotations" min="1" max="10" style="width:500px;" required>
         <button type="submit">Proceed</button>
     </form>

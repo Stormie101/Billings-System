@@ -43,21 +43,6 @@ if(isset($_SESSION['username'])){
       display: none;
     }
     
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 10px;
-    }
-
-    .copyright p{
-    padding-left: 40px;
-    margin-top:10px;
-    color:white;
-    font-size: 15px;
-    
-  }
-    
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
@@ -110,7 +95,21 @@ if(isset($_SESSION['username'])){
     color: darkcyan;
   }
   .dashboard-button:hover {
-    transform: translateY(-2px);}
+    transform: translateY(-2px);
+  }
+
+  .footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
   </style>
 
   
@@ -148,24 +147,19 @@ if(isset($_SESSION['username'])){
 
         <a href="DeliveryOrder-task/DeliveryOr.php" class="dashboard-button" style="text-decoration: none;" > DELIVERY ORDER
         </a>
+
+        <a href="CNC.php" class="dashboard-button" style="text-decoration: none;" > COMPANY / CLIENT
         </a>
       </div>
     </div>
     </div>
+    <br><br>
 
-      
-      
-
-    
-
-    <br><br><br>
-
-<footer class="container-fluid text-center">
-  
-  <div class="copyright">
-    <p>Copyright ©️ 2023 KYROL Security Labs Sdn Bhd</p>
-  </div>
-</footer>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>Copyright ©️ 2023 KYROL Security Labs Sdn Bhd</p>
+        </div>
+    </footer>
 
 </body>
 </html>

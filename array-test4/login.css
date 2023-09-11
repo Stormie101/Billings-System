@@ -81,12 +81,13 @@ header p{
   
   .login-form input {
     display: block;
-    width: 100%;
+    width: calc(100% - 20px); /* Adjusted width */
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
     border: 1px solid #ccc;
-  }
+}
+
   
   .login-form #login-button {
     background-color: #4CAF50;

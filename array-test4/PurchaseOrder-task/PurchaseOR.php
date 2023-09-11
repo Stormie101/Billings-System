@@ -41,14 +41,37 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation Process</title>
+    <title>PO Process</title>
     <link rel="stylesheet" href="PurchaseOR.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    $('#compName').on('blur', function() {
+        var CNValue = $(this).val();
+
+        // Send an AJAX request to fetch tel and email based on att
+        $.ajax({
+            url: 'company-details.php', // Create this PHP file
+            type: 'POST',
+            data: {compName: CNValue},
+            success: function(data) {
+                var detailsz = JSON.parse(data);
+
+                // Update the tel and email fields
+                $('#compStreet').val(detailsz.compStreet);
+                $('#compCity').val(detailsz.compCity);
+                $('#compState').val(detailsz.compState);
+            }
+        });
+    });
+});
+    </script>
 </head>
 <body>
     <ul>
-        <li><a href="../index.html"><img src="../kyrol.png" alt=""></a></li>
-        <li><a href="../index.html">HOME</a></li>
+        <li><a href="../index.php"><img src="../kyrol.png" alt=""></a></li>
+        <li><a href="../index.php">HOME</a></li>
         <li><a href="news.asp">INVOICE</a></li>
         <li><a href="../quotation-task/quotation.php">QUOTATION</a></li>
         <li><a href="about.asp">P.O</a></li>
@@ -80,19 +103,19 @@ $conn->close();
                 <table>
                     <tr>
                         <td><p>Company:</p></td>
-                        <td><p><input type="text" name="compName" required></p></td>
+                        <td><p><input type="text" name="compName" id="compName" required></p></td>
                     </tr>
                     <tr>
                         <td><p>Street:</p></td>
-                        <td><p><input type="text" name="compStreet" required></p></td>
+                        <td><p><input type="text" name="compStreet" id="compStreet"  required></p></td>
                     </tr>
                     <tr>
                         <td><p>City:</p></td>
-                        <td><p><input type="text" name="compCity" required></p></td>
+                        <td><p><input type="text" name="compCity" id="compCity"  required></p></td>
                     </tr>
                     <tr>
                         <td><p>State:</p></td>
-                        <td><p><input type="text" name="compState" required></p></td>
+                        <td><p><input type="text" name="compState" id="compState"  required></p></td>
                     </tr>
                 </table>
             </div>
@@ -122,7 +145,7 @@ $conn->close();
                 </table>
             </div>
         
-        <label>Enter the number of quotations (10 max):</label>
+        <label>Enter the number of item (10 max):</label>
         <input type="number" name="numQuotations" min="1" max="10" style="width:500px;" required>
         <button type="submit">Proceed</button>
     </form>
