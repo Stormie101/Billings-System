@@ -65,15 +65,15 @@ $conn->close();
 </head>
 <body>
     <ul>
-        <li><a href="index.php"><img src="kyrol.png" alt=""></a></li>
-        <li><a href="index.php">HOME</a></li>
-        <li><a href="../invoice-task/invoice.php">INVOICE</a></li>
-        <li><a href="quotation.php">QUOTATION</a></li>
-        <li><a href="about.asp">P.O</a></li>
-        <li><a href="about.asp">D.O</a></li>
+        <li><a href="index-test.php"><img src="kyrol.png" alt=""></a></li>
+        <li><a href="index-test.php">HOME</a></li>
+        <li><a href="invoice-task/invoice.php">INVOICE</a></li>
+        <li><a href="quotation-task/quotation.php">QUOTATION</a></li>
+        <li><a href="PurchaseOrder-task/PurchaseOR.php">P.O</a></li>
+        <li><a href="DeliveryOrder-task/DeliveryOr.php">D.O</a></li>
     </ul>
     <header>
-        <img src="kyrol.png" alt="">
+        <img src="kyrol.png">
         <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
         <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">COMPANY / CLIENT</p>
     </header>

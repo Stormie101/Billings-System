@@ -66,14 +66,14 @@ $conn->close();
     <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
-    <ul>
-        <li><a href="../index.php"><img src="../kyrol.png" alt=""></a></li>
-        <li><a href="../index.php">HOME</a></li>
-        <li><a href="news.asp">INVOICE</a></li>
-        <li><a href="quotation.php">QUOTATION</a></li>
-        <li><a href="about.asp">P.O</a></li>
-        <li><a href="about.asp">D.O</a></li>
-    </ul>
+<ul>
+    <li><a href="../index-test.php"><img src="../kyrol.png" alt=""></a></li>
+    <li><a href="../index-test.php">HOME</a></li>
+    <li><a href="../invoice-task/invoice.php">INVOICE</a></li>
+    <li><a href="../quotation-task/quotation.php">QUOTATION</a></li>
+    <li><a href="../purchaseorder-task/purchaseOR.php">P.O</a></li>
+    <li><a href="../deliveryorder-task/deliveryOR.php">D.O</a></li>
+</ul>
 
     <header>
         <img src="../kyrol.png" alt="">

@@ -24,7 +24,7 @@ if ($result->num_rows == 1) {
     // Login successful
     session_start();
     $_SESSION['username'] = $username;
-    header("Location: index.php"); // Redirect to the dashboard page after successful login
+    header("Location: index-test.php"); // Redirect to the dashboard page after successful login
 } else {
     // Login failed
     echo "Invalid username or password. Please try again.";
