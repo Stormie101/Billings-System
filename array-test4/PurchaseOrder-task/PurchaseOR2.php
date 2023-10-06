@@ -2,7 +2,7 @@
 session_start();
 
 if(isset($_SESSION['username'])){
-    $username = $_SESSION['username'];
+    $usernames = $_SESSION['username'];
 } else {
     header("Location: ../login.php"); // Redirect to login page if not logged in
     exit();
@@ -31,19 +31,26 @@ if ($conn->connect_error) {
     $Dates = $_POST["Dates"];
 
     //Shipping information
-    $Req = $_POST["Req"];
-    $ShipV = $_POST["ShipV"];
-    $Fob = $_POST["Fob"];
-    $Sterm = $_POST["Sterm"];
-    $Sdate = $_POST["Sdate"];
+    // $Req = $_POST["Req"];
+    $Req = isset($_POST["Req"]) && !empty($_POST["Req"]) ? $_POST["Req"] : "None";
+    $ShipV = isset($_POST["ShipV"]) && !empty($_POST["ShipV"]) ? $_POST["ShipV"] : "None";
+    $Fob = isset($_POST["Fob"]) && !empty($_POST["Fob"]) ? $_POST["Fob"] : "None";
+    $Sterm = isset($_POST["Sterm"]) && !empty($_POST["Sterm"]) ? $_POST["Sterm"] : "None";
+    $Sdate = isset($_POST["Sdate"]) && !empty($_POST["Sdate"]) ? $_POST["Sdate"] : "None";
+
 
     //Vendor Address
     $compName = $_POST["compName"];
     $compStreet = $_POST["compStreet"];
     $compCity = $_POST["compCity"];
+    $compPcode = $_POST["compPcode"];
     $compState = $_POST["compState"];
+    $compTel = $_POST["compTel"];
+    $compFax = $_POST["compFax"];
 
-    $sql = "INSERT INTO client_purchaseorder (PO_Number, Dates, compName, compStreet, compCity, compState, Requist, ShipVia, FOB, ShipTerm, ShipDate) VALUES ('$POno','$Dates','$compName','$compStreet','$compCity','$compState','$Req','$ShipV','$Fob','$Sterm','$Sdate')";
+    $QNo = isset($_POST["QNo"]) && !empty($_POST["QNo"]) ? $_POST["QNo"] : "none";
+
+    $sql = "INSERT INTO client_purchaseorder (PO_Number, Dates, compName, compStreet, compCity, compPcode, compState, Requist, ShipVia, FOB, ShipTerm, ShipDate, username) VALUES ('$POno','$Dates','$compName','$compStreet','$compCity', '$compPcode','$compState','$Req','$ShipV','$Fob','$Sterm','$Sdate','$usernames')";
     // ... Construct and execute similar queries for other data ...
     if ($conn->query($sql) === TRUE) {
         // echo "<p style='background-color:#50e991; color:white; text-align:center; font-size:20px; padding:15px;'>Data has entered successfully!</p>";
@@ -66,18 +73,18 @@ $conn->close();
 </head>
 <body>
     <ul>
-        <li><a href="../index.php"><img src="../kyrol.png" alt=""></a></li>
-        <li><a href="../index.php">HOME</a></li>
-        <li><a href="invoice.php">INVOICE</a></li>
+        <li><a href="../index-test.php"><img src="../kyrol.png" alt=""></a></li>
+        <li><a href="../index-test.php">HOME</a></li>
+        <li><a href="../invoice-task/invoice.php">INVOICE</a></li>
         <li><a href="../quotation-task/quotation.php">QUOTATION</a></li>
-        <li><a href="about.asp">P.O</a></li>
-        <li><a href="about.asp">D.O</a></li>
+        <li><a href="../PurchaseOrder-task/PurchaseOR.php">P.O</a></li>
+        <li><a href="../DeliveryOrder-task/DeliveryOr.php">D.O</a></li>
     </ul>
 
     <header>
         <img src="../kyrol.png" alt="">
         <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">INVOICE</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Purchase Order</p>
     </header>
 
     <form action="generatepdfOR.php" method="post">
@@ -95,6 +102,7 @@ $conn->close();
     <input type="hidden" name="compName" value="<?php echo $compName ?>">
     <input type="hidden" name="compStreet" value="<?php echo $compStreet ?>">
     <input type="hidden" name="compCity" value="<?php echo $compCity ?>">
+    <input type="hidden" name="compPcode" value="<?php echo $compPcode ?>">
     <input type="hidden" name="compState" value="<?php echo $compState ?>">
     
     <div class="content">
@@ -128,6 +136,10 @@ $conn->close();
                         <td><p><?php echo $compCity ?></p></td>
                     </tr>
                     <tr>
+                        <td><p>Postcode:</p></td>
+                        <td><p><?php echo $compPcode ?></p></td>
+                    </tr>
+                    <tr>
                         <td><p>State:</p></td>
                         <td><p><?php echo $compState ?></p></td>
                     </tr>
@@ -158,63 +170,52 @@ $conn->close();
                     </tr>
                 </table>
             </div>
-        <div class="Qinput">
+            <hr>
+            <div class="Qinput">
+            <div class="input-table">
+        <table>
+        <tr>
+            <th>No</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Quantity</th>
+            <th>U.Price</th>
+            <th>GST OPTION</th>
+            <th>GST AMOUNT</th>
+            <th>Total</th>
+        </tr>
         <?php
-for ($i = 1; $i <= $numQuotations; $i++) {
-    echo "<hr>";
-    echo "<h5><b>PURCHASE ORDER INPUT $i</b></h5>";
-    echo "<table>";
-    echo "<tr>";
-    echo "<td><p style='display:none;'>No</p></td>";
-    echo "<td><input type='hidden' name='nom[]' value='$i' required> </input></td>";
-    echo "</tr>";
-    echo "<td><p>Name</p></td>";
-    echo "<td><input type='text' name='title[]' required> </input></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>Description</p></td>";
-    echo "<td><textarea name='desc[]' cols='30' rows='5' required> </textarea></td>";
-    echo "</tr>";
-    echo "</tr>";
-    echo "<td><p>Date</p></td>";
-    echo "<td><input type='date' name='PODate[]' required> </input></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>Quantity</p></td>";
-    echo "<td><input type='text' name='quantity[]' id='quantity_$i' value='" . (isset($_POST['quantity'][$i - 1]) ? $_POST['quantity'][$i - 1] : "") . "' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";    
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>U.Price</p></td>";
-    echo "<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>GST</p></td>";
-    echo "<td>
-        <select name='gst_option[]' id='gst_option_$i' onchange='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'>
-            <option value='no'>No</option>
-            <option value='yes'>Yes</option>
-        </select>
-        <td><input type='text' name='gst_amount[]' id='gst_amount_$i' readonly></input></td>
-
-         </td>";
-    echo "<tr>";
-    echo "<td><p style='display:none;'>Discount (%)</p></td>";
-    echo "<td><input type='hidden' name='discount_percentage[]' id='discount_percentage_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'></input></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>Quotation $i Total </p></td>";
-    echo "<td><input type='text' name='item_total[]' id='item_total_$i' readonly ></input></td>";
-    echo "</tr>";
-    echo "</table>";
-}
-?>
+        for ($i = 1; $i <= $numQuotations; $i++) {
+            echo"<tr>";
+            echo"<td><input input type='hidden' name='nom[]' value='$i' required></input>$i</td>";
+            echo"<td><textarea name='desc[]' cols='30' rows='5' required> </textarea></td>";
+            echo "<td><input type='date' name='PODate[]' id='PODate[]'> </input></td>";
+            echo"<td><input type='text' name='quantity[]' id='quantity_$i' oninput='formatInput(this); calculateTotal($i)' required></input></td>";
+            echo"<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='formatInput(this); calculateTotal($i)' required></input></td>";
+            echo"<td>
+                    <select name='gst_option[]' id='gst_option_$i' onchange='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'>
+                        <option value='no'>No</option>
+                        <option value='yes'>Yes</option>
+                    </select>
+                </td>";
+            echo"<td><input type='text' name='gst_amount[]' id='gst_amount_$i' readonly></input></td>";
+            echo"<input type='hidden' name='discount_percentage[]' id='discount_percentage_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'></input>";
+            echo"<td><input type='text' name='item_total[]' id='item_total_$i' readonly ></input></td>";
+            echo"";
+            echo"";
+            echo"";
+            echo"<tr>";
+        }
+        ?>
+        </table>
+        </div>
     <hr>
     <div id="extras"style="margin:15px; padding:10px;">
         <!-- new input -->
-        <label style="padding-bottom:10px">Discount</label><br>
+        <label style="padding-bottom:10px">Discount(%)</label><br>
         <input type="text" id="extras_discount" oninput="updateCalculationTotals()"><br>
-        <label style="padding-bottom:10px">GST Amount</label><br>
-        <input type="text" id="gst_input" oninput="updateCalculationTotals()">
+        <label style="padding-bottom:10px">Other</label><br>
+        <input type="text" id="other_input" oninput="formatInput(this); updateCalculationTotals()" value="<?php echo isset($_POST['other_amount']) ? $_POST['other_amount'] : '0.00'; ?>">
     </div>
 </div>
     <div class="calculate">
@@ -222,8 +223,12 @@ for ($i = 1; $i <= $numQuotations; $i++) {
     <h5>Calculation</h5>
         <p>Total Amount:</p>
         <input type="text" id="total_amount" name="total_amount" value='0.00' readonly>
-        <p>Total Discount:</p>
+
+        <p>Total Discount(%):</p>
         <input type="text" id="total_discount" name="total_discount" value='0.00' readonly>
+
+        <p>Total Other:</p>
+        <input type="text" id="total_other" name="other_amount" value='0.00' readonly>
 
         <p>Total Net:</p>
         <input type="text" id="net_amount" name="net_amount" value='0.00' readonly>
@@ -256,9 +261,17 @@ for ($i = 1; $i <= $numQuotations; $i++) {
     </footer>
 </body>
 <script>
+
+function formatInput(input) {
+    let value = input.value.replace(/[^\d.]/g, ''); // Remove non-numeric characters except decimal point
+    value = parseFloat(value.replace(/,/g, '')); // Remove commas and convert to float
+    input.value = value.toLocaleString('en-US', { maximumFractionDigits: 2 }); // Format as number with max 2 decimal places
+    updateCalculationTotals(); // Update totals after formatting
+}
+
 function calculateTotal(index) {
-    var quantity = parseFloat(document.getElementById('quantity_' + index).value);
-    var unitPrice = parseFloat(document.getElementById('unit_price_' + index).value);
+    var quantity = parseFloat(document.getElementById('quantity_' + index).value.replace(/,/g, ''));
+    var unitPrice = parseFloat(document.getElementById('unit_price_' + index).value.replace(/,/g, ''));
     var gstOption = document.getElementById('gst_option_' + index).value;
     var discountPercentage = parseFloat(document.getElementById('discount_percentage_' + index).value) || 0;
     
@@ -274,7 +287,7 @@ function calculateTotal(index) {
     var total = totalBeforeDiscount - discountAmount;
 
     document.getElementById('gst_amount_' + index).value = gstAmount.toFixed(2);
-    document.getElementById('item_total_' + index).value = total.toFixed(2);
+    document.getElementById('item_total_' + index).value = total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
 
     // Recalculate all the totals
     updateCalculationTotals();
@@ -287,9 +300,12 @@ function updateCalculationTotals() {
     var totalDiscount = 0;
     var totalGST = 0;
 
+    var otherAmount = parseFloat(document.getElementById('other_input').value.replace(/[^\d.]/g, '')) || 0;
+
     // Loop through the individual items to accumulate totals
     for (var i = 1; i <= <?php echo $numQuotations; ?>; i++) {
-        var itemTotal = parseFloat(document.getElementById('item_total_' + i).value);
+        var itemTotal = parseFloat(document.getElementById('item_total_' + i).value.replace(/,/g, '')); // Remove commas
+
         totalAmount += itemTotal;
 
         var discountPercentage = parseFloat(document.getElementById('discount_percentage_' + i).value) || 0;
@@ -299,6 +315,10 @@ function updateCalculationTotals() {
         var gstAmount = parseFloat(document.getElementById('gst_amount_' + i).value) || 0;
         totalGST += gstAmount; // Accumulate total GST
 
+        var otherAmount = parseFloat(document.getElementById('other_input').value.replace(/[^\d.]/g, '')) || 0;
+
+        document.getElementById('total_other').value = otherAmount.toFixed(2);
+
         var gstOption = document.getElementById('gst_option_' + i).value;
 
         netAmount += (itemTotal - discountAmount) - (gstOption === 'yes' ? gstAmount : 0);
@@ -306,19 +326,21 @@ function updateCalculationTotals() {
 
     // Additional discount from the "Extras" section
     var extrasDiscount = parseFloat(document.getElementById('extras_discount').value) || 0;
-    totalDiscount += extrasDiscount;
+    totalDiscount += (extrasDiscount / 100) * totalAmount; // Apply discount percentage
 
     // Calculate total gross amount
-    netAmount = totalAmount - totalDiscount + totalGST;
-    totalGross = netAmount + totalGST;
+    netAmount = totalAmount - totalDiscount + totalGST + otherAmount;
+    var totalGross = netAmount + totalGST; // Calculate Total Gross
 
     // Update the input fields with the calculated values
-    document.getElementById('total_amount').value = totalAmount.toFixed(2);
-    document.getElementById('total_discount').value = totalDiscount.toFixed(2); // Display total discount as actual amount
-    document.getElementById('net_amount').value = netAmount.toFixed(2);
-    document.getElementById('Tgst').value = totalGST.toFixed(2); // Set total GST value
-    document.getElementById('total_gross').value = totalGross.toFixed(2);
+    document.getElementById('total_amount').value = totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('total_discount').value = totalDiscount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('net_amount').value = netAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('Tgst').value = totalGST.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('total_other').value = otherAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('total_gross').value = totalGross.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
     var addQuotationButton = document.getElementById("addQuotationButton");
@@ -326,6 +348,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var quotationCounter = <?php echo $numQuotations; ?>;
     
+    function formatNumberInput(input) {
+        let value = input.value.replace(/[^\d.]/g, ''); // Remove non-numeric characters except decimal point
+        value = parseFloat(value.replace(/,/g, '')); // Remove commas and convert to float
+        input.value = value.toLocaleString('en-US', { maximumFractionDigits: 2 }); // Format as number with max 2 decimal places
+    }
+
+    var otherInput = document.getElementById("other_input");
+
+    otherInput.addEventListener("input", function() {
+        formatNumberInput(this);
+        updateCalculationTotals();
+    });
+
     addQuotationButton.addEventListener("click", function() {
         quotationCounter++;
         

@@ -155,8 +155,8 @@ $(document).ready(function() {
                         <!-- <td><p><input type="text" name="Terms" required></p></td> -->
                         <td>
                         <select id="Terms" name="Terms" required>
-                            <option value="Elle">Cheque / EFT</option>
-                            <option value="Syaf">Cheque</option>
+                            <option value="Cheque / EFT">Cheque / EFT</option>
+                            <option value="Cheque">Cheque</option>
                         </select>
                         </td>
                     </tr>

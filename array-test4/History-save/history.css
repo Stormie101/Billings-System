@@ -1,0 +1,179 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+    height: 50px; /* Set a fixed height for the list items */
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+li img {
+    width: 100px;
+    height: inherit;
+    align-items: center;
+}
+
+header{
+    background-color: darkcyan;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header img{
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    padding: 50px;
+    padding-bottom: 5px;
+}
+
+header p{
+    text-align: center;
+    color: white;
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    bottom: 0;
+    width: 100%;
+}
+
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Apply some basic styles to the table */
+table {
+    border-collapse: collapse;
+    width: 95%;
+    margin: 0 auto; /* Center the table horizontally */
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Style the table header */
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Style the table rows */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Style table cells */
+td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Add some spacing between table cells */
+td, th {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+    margin-top: 20px; /* Adjust the margin as needed */
+}
+
+.button-container button {
+    background-color: white;
+    padding: 15px;
+    font-weight: bold;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.button-container button:hover{
+    background-color: aliceblue;
+}
+
+.searchbar{
+    height: 30px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: white;
+    border-color:rgb(48, 46, 46);
+    font-size: 25px;
+    padding: 10px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.searchbutton{
+position:absolute;
+left: 500px;
+bottom: 40px;
+cursor: pointer;
+display: none;
+}
+
+.searchbutton:hover{
+    background-color: green;
+}
+
+#searchbar1{
+    height: 30px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: white;
+    border-color:rgb(48, 46, 46);
+    font-size: 25px;
+    padding: 10px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+}

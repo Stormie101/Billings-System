@@ -2,7 +2,7 @@
 session_start();
 
 if(isset($_SESSION['username'])){
-    $username = $_SESSION['username'];
+    $usernames = $_SESSION['username'];
 } else {
     header("Location: ../login.php"); // Redirect to login page if not logged in
     exit();
@@ -21,7 +21,6 @@ $conn = new mysqli($host, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 
     //number of quotation
     $numQuotations = $_POST["numQuotations"];
@@ -44,7 +43,7 @@ if ($conn->connect_error) {
     $compCity = $_POST["compCity"];
     $compState = $_POST["compState"];
 
-    $sql = "INSERT INTO client_quotation (att, tel, email, ref, QNo, DATES, SaleP, PAGES, compName, compStreet, compCity, compState) VALUES ('$att', '$tel', '$email', '$reference', '$QNo', '$Date', '$SaleP', '$Page', '$compName', '$compStreet', '$compCity', '$compState' )";
+    $sql = "INSERT INTO client_quotation (att, tel, email, ref, QNo, DATES, SaleP, PAGES, compName, compStreet, compCity, compState, username) VALUES ('$att', '$tel', '$email', '$reference', '$QNo', '$Date', '$SaleP', '$Page', '$compName', '$compStreet', '$compCity', '$compState', '$usernames' )";
     // ... Construct and execute similar queries for other data ...
     if ($conn->query($sql) === TRUE) {
         // echo "<p style='background-color:#50e991; color:white; text-align:center; font-size:20px; padding:15px;'>Data has entered successfully!</p>";
@@ -83,7 +82,7 @@ $conn->close();
 
     <form action="generatepdf.php" method="post">
 
-        <!-- Hidden input fields to hold other data -->
+        <!-- Hidden input fields to hold other data -->                       
     <input type="hidden" name="att" value="<?php echo $att ?>">
     <input type="hidden" name="tel" value="<?php echo $tel ?>">
     <input type="hidden" name="email" value="<?php echo $email ?>">
@@ -98,17 +97,17 @@ $conn->close();
     <input type="hidden" name="compState" value="<?php echo $compState ?>">
     
     <div class="content">
-        <div id="innercontent">
-            <div class="clientdetail">
+        <div id="innercontent" class="grid-container">
+            <div class="detail-box clientdetail">
             <h5>CLIENT'S DETAIL</h5>
-                <table>
+                <table style="border-collapse: collapse; width: 100%; max-width: 800px; background-color: #fff;">
                     <tr>
                         <td><p>ATT:</p></td>
                         <td><p><?php echo $att ?></p></td>
                     </tr>
                     <tr>
                         <td><p>TEL:</p></td>
-                        <td><p><?php echo $tel ?></p></td>
+                        <td><p>(+601)<?php echo $tel ?></p></td>
                     </tr>
                     <tr>
                         <td><p>EMAIL:</p></td>
@@ -120,7 +119,7 @@ $conn->close();
                     </tr>
                 </table>
             </div>
-            <div class="clientdetail">
+            <div class="detail-box clientdetail">
                 <h5>QUOTATION DETAIL</h5>
                 <table>
                     <tr>
@@ -141,7 +140,7 @@ $conn->close();
                     </tr>
                 </table>
             </div>
-            <div class="clientdetail">
+            <div class="detail-box clientdetail">
                 <h5>VENDOR ADDRESS</h5>
                 <table>
                     <tr>
@@ -162,57 +161,50 @@ $conn->close();
                     </tr>
                 </table>
             </div>
+            <hr>
         <div class="Qinput">
+            <div class="input-table">
+        <table>
+        <tr>
+            <th>No</th>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>U.Price</th>
+            <th>GST OPTION</th>
+            <th>GST AMOUNT</th>
+            <th>QO Total</th>
+        </tr>
         <?php
-for ($i = 1; $i <= $numQuotations; $i++) {
-    echo "<hr>";
-    echo "<h5><b>QUOTATION INPUT $i</b></h5>";
-    echo "<table>";
-    echo "<tr>";
-    echo "<td><p style='display:none;'>No</p></td>";
-    echo "<td><input type='hidden' name='nom[]' value='$i' required> </input></td>";
-    echo "</tr>";
-    echo "<td><p>Name</p></td>";
-    echo "<td><input type='text' name='title[]' required> </input></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>Description</p></td>";
-    echo "<td><textarea name='desc[]' cols='30' rows='5' required> </textarea></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>Quantity</p></td>";
-    echo "<td><input type='text' name='quantity[]' id='quantity_$i' value='" . (isset($_POST['quantity'][$i - 1]) ? $_POST['quantity'][$i - 1] : "") . "' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";    
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>U.Price</p></td>";
-    echo "<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>GST</p></td>";
-    echo "<td>
-        <select name='gst_option[]' id='gst_option_$i' onchange='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'>
-            <option value='no'>No</option>
-            <option value='yes'>Yes</option>
-        </select>
-        <td><input type='text' name='gst_amount[]' id='gst_amount_$i' readonly></input></td>
-
-         </td>";
-    echo "<tr>";
-    echo "<td><p style='display:none;'>Discount (%)</p></td>";
-    echo "<td><input type='hidden' name='discount_percentage[]' id='discount_percentage_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'></input></td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td><p>Quotation $i Total </p></td>";
-    echo "<td><input type='text' name='item_total[]' id='item_total_$i' readonly ></input></td>";
-    echo "</tr>";
-    echo "</table>";
-}
-?>
+        for ($i = 1; $i <= $numQuotations; $i++) {
+            echo"<tr>";
+            echo"<td><input input type='hidden' name='nom[]' value='$i' required></input>$i</td>";
+            echo"<td><input type='text' name='title[]' required> </input></td>";
+            echo"<td><textarea name='desc[]' cols='30' rows='5' required> </textarea></td>";
+            echo"<td><input type='text' name='quantity[]' id='quantity_$i' value='" . (isset($_POST['quantity'][$i - 1]) ? $_POST['quantity'][$i - 1] : "") . "' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";
+            echo"<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";
+            echo"<td>
+                    <select name='gst_option[]' id='gst_option_$i' onchange='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'>
+                        <option value='no'>No</option>
+                        <option value='yes'>Yes</option>
+                    </select>
+                </td>";
+            echo"<td><input type='text' name='gst_amount[]' id='gst_amount_$i' readonly></input></td>";
+            echo"<input type='hidden' name='discount_percentage[]' id='discount_percentage_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'></input>";
+            echo"<td><input type='text' name='item_total[]' id='item_total_$i' readonly ></input></td>";
+            echo"";
+            echo"";
+            echo"";
+            echo"<tr>";
+        }
+        ?>
+        </table>
+        </div>
     <hr>
     <div id="extras"style="margin:15px; padding:10px;">
         <!-- new input -->
-        <label style="padding-bottom:10px">Discount</label><br>
-        <input type="text" id="extras_discount" oninput="updateCalculationTotals()">
+        <label style="padding-bottom:10px">Discount(%)</label><br>
+        <input type="number" id="extras_discount" oninput="updateCalculationTotals()">
     </div>
 </div>
     <div class="calculate">
@@ -220,7 +212,7 @@ for ($i = 1; $i <= $numQuotations; $i++) {
     <h5>Calculation</h5>
         <p>Total Amount:</p>
         <input type="text" id="total_amount" name="total_amount" value='0.00' readonly>
-        <p>Total Discount:</p>
+        <p>Total Discount(%):</p>
         <input type="text" id="total_discount" name="total_discount" value='0.00' readonly>
 
         <p>Total Net:</p>
@@ -291,7 +283,7 @@ function updateCalculationTotals() {
         totalAmount += itemTotal;
 
         var discountPercentage = parseFloat(document.getElementById('discount_percentage_' + i).value) || 0;
-        var discountAmount = (discountPercentage / 100) * itemTotal;
+        var discountAmount = (discountPercentage / 100) * totalAmount;
         totalDiscount += discountAmount; // Accumulate total discount
 
         var gstAmount = parseFloat(document.getElementById('gst_amount_' + i).value) || 0;
@@ -304,7 +296,7 @@ function updateCalculationTotals() {
 
     // Additional discount from the "Extras" section
     var extrasDiscount = parseFloat(document.getElementById('extras_discount').value) || 0;
-    totalDiscount += extrasDiscount;
+    totalDiscount += (extrasDiscount / 100) * totalAmount; // Apply discount percentage
 
     // Calculate total gross amount
     netAmount = totalAmount - totalDiscount + totalGST;
@@ -317,6 +309,7 @@ function updateCalculationTotals() {
     document.getElementById('Tgst').value = totalGST.toFixed(2); // Set total GST value
     document.getElementById('total_gross').value = totalGross.toFixed(2);
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
     var addQuotationButton = document.getElementById("addQuotationButton");

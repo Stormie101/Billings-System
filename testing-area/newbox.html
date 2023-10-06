@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Double Top Border Table</title>
+<style>
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 0px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:first-child th {
+  border-top: 2px solid black;
+  box-shadow: 0px 3px 0px 0px white;
+}
+
+.item {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  margin: 1px 0; /* Adjust the margin value to control the space */
+  padding: 8px;
+}
+</style>
+</head>
+<body>
+
+<table>
+  <tr>
+    <th style="border: none;"><div class="item">Item 1</div></th>
+    <th>Header 2</th>
+    <th>Header 3</th>
+  </tr>
+  <tr>
+    <td style="border: none;"><div class="item">Item 2</div></td>
+    <td>Data 2</td>
+    <td>Data 3</td>
+  </tr>
+  <tr>
+    <td>Data 4</td>
+    <td>Data 5</td>
+    <td>Data 6</td>
+  </tr>
+</table>
+
+efadx
+
+<div class="item">Item 1</div>
+<div class="item">Item 2</div>
+</body>
+</html>

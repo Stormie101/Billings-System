@@ -61,7 +61,10 @@ $conn->close();
                 // Update the tel and email fields
                 $('#compStreet').val(detailsz.compStreet);
                 $('#compCity').val(detailsz.compCity);
+                $('#compPcode').val(detailsz.compPcode);
                 $('#compState').val(detailsz.compState);
+                $('#compTel').val(detailsz.compTel);
+                $('#compFax').val(detailsz.compFax);
             }
         });
     });
@@ -114,8 +117,20 @@ $conn->close();
                         <td><p><input type="text" name="compCity" id="compCity"  required></p></td>
                     </tr>
                     <tr>
+                        <td><p>Postcode:</p></td>
+                        <td><p><input type="number" name="compPcode" id="compPcode"  required></p></td>
+                    </tr>
+                    <tr>
                         <td><p>State:</p></td>
                         <td><p><input type="text" name="compState" id="compState"  required></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Telephone:</p></td>
+                        <td><p><input type="number" name="compTel" id="compTel"  required></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Fax:</p></td>
+                        <td><p><input type="number" name="compFax" id="compFax"  required></p></td>
                     </tr>
                 </table>
             </div>

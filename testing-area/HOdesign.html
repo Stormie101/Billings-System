@@ -61,22 +61,24 @@
       <th>Description</th>
       <th>Quantity</th>
       <th>U.Price</th>
-      <th>GST</th>
+      <th>GST OPTION</th>
+      <th>GST AMOUNT</th>
       <th>QO Total</th>
     </tr>
     <tr>
-      <td>1</td>
-      <td>HP VICTUS</td>
-      <td><textarea name="" id="" cols="30" rows="10"></textarea></td>
-      <td>2</td>
-      <td>50</td>
+      <td>$i</td>
+      <td><input type='text' name='title[]' required> </input></td>
+      <td><textarea name='desc[]' cols='30' rows='5' required> </textarea></td>
+      <td><input type='text' name='quantity[]' id='quantity_$i' value='" . (isset($_POST['quantity'][$i - 1]) ? $_POST['quantity'][$i - 1] : "") . "' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>
+      <td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>
       <td>
         <select name="yes">
           <option value="yes">Yes</option>
           <option value="no">No</option>
         </select>
       </td>
-      <td>100</td>
+      <td><input type='text' name='gst_amount[]' id='gst_amount_$i' readonly></input></td>
+      <td><input type='text' name='item_total[]' id='item_total_$i' readonly ></input></td>
     </tr>
     <!-- Add more rows as needed -->
   </table>

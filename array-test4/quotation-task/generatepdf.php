@@ -192,6 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <p1>Please do not hesitate to contact us if further information is required.</p1><br><br>
 <p1>Thank You.</p1><br>
 <b>This is computer generated and no sign required</b>
+<img src="AV_COP.png" alt="Image" style="margin-left: 350px; width:150px;">
 
 <footer>
 

@@ -2,7 +2,7 @@
 session_start();
 
 if(isset($_SESSION['username'])){
-    $username = $_SESSION['username'];
+    $usernames = $_SESSION['username'];
 } else {
     header("Location: ../login.php"); // Redirect to login page if not logged in
     exit();
@@ -184,7 +184,6 @@ $(document).ready(function() {
                     </tr>
                 </table>
             </div>
-        
         <label>Enter the number of quotations (10 max):</label>
         <input type="number" name="numQuotations" min="1" max="10" style="width:500px;" required>
         <button type="submit">Proceed</button>

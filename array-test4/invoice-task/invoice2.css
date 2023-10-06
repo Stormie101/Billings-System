@@ -76,21 +76,26 @@ header p{
     font-size: 20px;
 }
 
-table {
+.clientdetail table {
     border-collapse: collapse;
     width: 100%;
     max-width: 800px;
     background-color: #fff;
+    /* Add any additional styles specific to .clientdetail table here */
 }
 
-td {
-    padding: 10px;}
+.clientdetail table td {
+    border: none;
+    padding: 10px;
+    text-align: left;
+}
 
-p {
+
+.clientdetail {
     margin: 0;
 }
 
-input[type="text"] {
+/* input[type="text"] {
     font-size: 20px;
     height: 30px;
     width: 100%;
@@ -118,7 +123,7 @@ input[type="date"]{
 input[type="date"]:focus{
 outline: none;
 border: 1px solid black;
-}
+} */
 
 #innercontent label{
     font-family: verdana;
@@ -244,4 +249,65 @@ font-weight: bold;
 
 #print-button:hover{
     background-color: rgb(39, 182, 39);
+}
+
+/* new table design */
+.input-table{
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto; /* This centers the element horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-table table {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    max-width: 800px;
+    width: 100%;
+    /* Add any additional styles specific to .input-table table here */
+}
+
+.input-table th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.input-table th {
+    background-color: #f5f5f5;
+    font-size: 15px;
+}
+
+.input-table input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #2196F3;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.input-table input[type="checkbox"]::before {
+    content: '\e5ca'; /* Material Design check icon */
+    font-family: 'Material Icons';
+    font-size: 18px;
+    color: #2196F3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+}
+
+.input-table input[type="checkbox"]:checked::before {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
 }
