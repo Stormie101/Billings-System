@@ -24,9 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $compStreet = $_POST['compStreet'];
     $compCity = $_POST['compCity'];
     $compState = $_POST['compState'];
+    $compPcode = $_POST['compPcode'];
 
-    $sqlInsert = "INSERT INTO companyinfo (compName, compStreet, compCity, compState) 
-                  VALUES ('$compName', '$compStreet', '$compCity', '$compState')";
+    $sqlInsert = "INSERT INTO companyinfo (compName, compStreet, compCity, compState, compPcode) 
+                  VALUES ('$compName', '$compStreet', '$compCity', '$compState', '$compPcode')";
 
     if ($conn->query($sqlInsert) === TRUE) {
         header("Location: CNC.php"); // Redirect back to the main page
@@ -51,12 +52,12 @@ $conn->close();
 </head>
 <body>
 <ul>
-        <li><a href="index.php"><img src="kyrol.png" alt=""></a></li>
-        <li><a href="index.php">HOME</a></li>
+        <li><a href="../index-test.php"><img src="../kyrol.png" alt=""></a></li>
+        <li><a href="../index-test.php">HOME</a></li>
         <li><a href="../invoice-task/invoice.php">INVOICE</a></li>
-        <li><a href="quotation.php">QUOTATION</a></li>
-        <li><a href="about.asp">P.O</a></li>
-        <li><a href="about.asp">D.O</a></li>
+        <li><a href="../quotation-task/quotation.php">QUOTATION</a></li>
+        <li><a href="../purchaseorder-task/purchaseOR.php">P.O</a></li>
+        <li><a href="../deliveryorder-task/deliveryOR.php">D.O</a></li>
     </ul>
     <header>
         <img src="kyrol.png" alt="">
@@ -75,6 +76,9 @@ $conn->close();
 
         <label for="compState">State:</label>
         <input type="text" id="compState" name="compState" required><br><br>
+
+        <label for="compState">Postcode:</label>
+        <input type="text" id="compPcode" name="compPcode" required><br><br>
 
         <input type="submit" value="Add Company">
     </form>

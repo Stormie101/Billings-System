@@ -64,13 +64,13 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
-    <ul>
-        <li><a href="index-test.php"><img src="kyrol.png" alt=""></a></li>
-        <li><a href="index-test.php">HOME</a></li>
-        <li><a href="invoice-task/invoice.php">INVOICE</a></li>
-        <li><a href="quotation-task/quotation.php">QUOTATION</a></li>
-        <li><a href="PurchaseOrder-task/PurchaseOR.php">P.O</a></li>
-        <li><a href="DeliveryOrder-task/DeliveryOr.php">D.O</a></li>
+<ul>
+        <li><a href="../index-test.php"><img src="../kyrol.png" alt=""></a></li>
+        <li><a href="../index-test.php">HOME</a></li>
+        <li><a href="../invoice-task/invoice.php">INVOICE</a></li>
+        <li><a href="../quotation-task/quotation.php">QUOTATION</a></li>
+        <li><a href="../purchaseorder-task/purchaseOR.php">P.O</a></li>
+        <li><a href="../deliveryorder-task/deliveryOR.php">D.O</a></li>
     </ul>
     <header>
         <img src="kyrol.png">
@@ -87,6 +87,7 @@ $conn->close();
                 <th>Street</th>
                 <th>City</th>
                 <th>State</th>
+                <th>Postcode</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -102,6 +103,7 @@ $conn->close();
                     echo "<td>" . $row["compStreet"] . "</td>";
                     echo "<td>" . $row["compCity"] . "</td>";
                     echo "<td>" . $row["compState"] . "</td>";
+                    echo "<td>" . $row["compPcode"] . "</td>";
                     echo "<td><a href='edit_company.php?id=" . $row["id"] . "'><i class='fas fa-edit' style='color:darkcyan;'></i>                    </a></td>";
                     echo "<td><a class='delete-link' href='". $_SERVER['PHP_SELF'] ."?delete_company=". $row['id'] ."'><i class='fas fa-trash' style='color:red;'></i>                    </td>";
                     echo "</tr>";

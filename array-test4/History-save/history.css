@@ -88,10 +88,12 @@ table {
 
 /* Style the table header */
 th {
-    background-color: #f2f2f2;
+    background-color: #333;
     text-align: left;
     padding: 10px;
     border: 1px solid #ddd;
+    color:white;
+    word-spacing: 2px;
 }
 
 /* Style the table rows */
@@ -128,30 +130,73 @@ td, th {
 }
 
 .button-container button {
-    background-color: white;
-    padding: 15px;
-    font-weight: bold;
-    margin: 5px;
-    border-radius: 8px;
+    --color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: inline-block;
+    width: 6em;
+    height: 2.6em;
+    line-height: 2.5em;
+    overflow: hidden;
+    margin: 20px;
+    font-size: 17px;
+    z-index: 1;
+    color: var(--color);
+    border: 2px solid var(--color);
+    border-radius: 6px;
+    position: relative;
+}
+
+.button-container button::before {
+    position: absolute;
+    content: "";
+    background: var(--color);
+    width: 150px;
+    height: 200px;
+    z-index: -1;
+    border-radius: 50%;
+  }
+
+.button-container button:hover{
+    color: white;
     cursor: pointer;
 }
 
-.button-container button:hover{
-    background-color: aliceblue;
+.button-container button:before {
+    top: 100%;
+    left: 100%;
+    transition: .3s all;
+  }
+  
+  .button-container button:hover::before {
+    top: -30px;
+    left: -30px;
+  }
+
+
+#searchbar1{
+    display: block;
+    color: rgb(34, 34, 34);
+    background: linear-gradient(142.99deg, rgba(217, 217, 217, 0.63) 15.53%, rgba(243, 243, 243, 0.63) 88.19%);
+    box-shadow: 0px 12px 24px -1px rgba(0, 0, 0,0.18);
+    border-color: rgba(7, 4, 14, 0);
+    border-radius: 50px;
+    block-size: 20px;
+    margin: 7px auto;
+    padding: 18px 15px;
+    outline: none;
+    text-align: center;
+    width: 500px;
+    transition: 0.5s;
+    font-size: 25px;
 }
 
-.searchbar{
-    height: 30px;
-    width: 500px;
-    border-radius: 10px;
-    background-color: white;
-    border-color:rgb(48, 46, 46);
-    font-size: 25px;
-    padding: 10px;
-    display: block;
-    margin: 0 auto;
-    margin-top: 15px;
+#searchbar1[type = "text"]:hover{
+    width: 600px;
 }
+
+#searchbar1[type = "text"]:focus {
+    width: 600px;
+  }
 
 .searchbutton{
 position:absolute;
@@ -165,15 +210,3 @@ display: none;
     background-color: green;
 }
 
-#searchbar1{
-    height: 30px;
-    width: 500px;
-    border-radius: 10px;
-    background-color: white;
-    border-color:rgb(48, 46, 46);
-    font-size: 25px;
-    padding: 10px;
-    display: block;
-    margin: 0 auto;
-    margin-top: 15px;
-}

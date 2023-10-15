@@ -81,6 +81,7 @@ $(document).ready(function() {
                 $('#compStreet').val(detailsz.compStreet);
                 $('#compCity').val(detailsz.compCity);
                 $('#compState').val(detailsz.compState);
+                $('#compPcode').val(detailsz.compPcode);
             }
         });
     });
@@ -182,11 +183,15 @@ $(document).ready(function() {
                         <td><p>State:</p></td>
                         <td><p><input type="text" name="compState" id="compState" required></p></td>
                     </tr>
+                    <tr>
+                        <td><p>Postcode:</p></td>
+                        <td><p><input type="number" name="compPcode" id="compPcode"  required></p></td>
+                    </tr>
                 </table>
             </div>
         <label>Enter the number of quotations (10 max):</label>
         <input type="number" name="numQuotations" min="1" max="10" style="width:500px;" required>
-        <button type="submit">Proceed</button>
+        <button type="submit" onclick="test()">Proceed</button>
     </form>
     </div>
     </div>
@@ -196,4 +201,10 @@ $(document).ready(function() {
         </div>
     </footer>
 </body>
+<script>
+function test() {
+  alert("Continue?");
+}
+</script>
 </html>
+

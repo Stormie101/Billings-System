@@ -12,7 +12,8 @@ if ($conn->connect_error) {
 
 $searchTerm = $_POST['searchTerm'];
 
-$sql = "SELECT * FROM client_quotation WHERE QNo = '$searchTerm'";
+$sql = "SELECT * FROM client_quotation WHERE compName = '$searchTerm' ORDER BY id DESC";
+
 
 $result = $conn->query($sql);
 

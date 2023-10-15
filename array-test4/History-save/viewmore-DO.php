@@ -24,6 +24,7 @@ if(isset($_SESSION['username'])){
         <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
         <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Delivery Order Detail</p>
     </header>
+    <form action="generatepdfDO.php" method="post">
 <?php
 $servername = "localhost";
 $username = "root";
@@ -43,18 +44,20 @@ if(isset($_GET['id'])){
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        $year = date('Y', strtotime($row["Dates"]));
+
         // Display the detailed information here
         echo "<div class='quotation-container'>";
         // Add more details as needed
 
         echo "<h1 class='quotation-details' style='font-size:30px;'>Client Detail</h1>";
-        echo "<h1 class='quotation-details' style='font-size:20px;'>Delivery Order No. : " . $row["DOn"] . "</h1>";
+        echo "<h1 class='quotation-details' style='font-size:20px;'>Delivery Order No. : KSL/" . $year . "/DO/" . $row["DOn"] . "</h1>";
         echo "<p class='quotation-details'><span>Attention To (ATT) :</span>" . $row["att"] . "</p>";
         echo "<p class='quotation-details'><span>Phone Number :</span>" . $row["tel"] . "</p>";
         echo "<p class='quotation-details'><span>Email :</span>" . $row["email"] . "</p>";
         echo "<p class='quotation-details'><span>Reference :</span>" . $row["ref"] . "</p>";
 
-        echo "<h1 class='quotation-details' style='font-size:30px;'>Quotation Detail</h1>";
+        echo "<h1 class='quotation-details' style='font-size:30px;'>Delivery Order Detail</h1>";
         echo "<p class='quotation-details'><span>Date :</span>" . $row["Dates"] . "</p>";
         echo "<p class='quotation-details'><span>Term :</span>" . $row["Terms"] . "</p>";
         echo "<p class='quotation-details'><span>Sale Person :</span>" . $row["SaleP"] . "</p>";
@@ -66,9 +69,11 @@ if(isset($_GET['id'])){
         echo "<p class='quotation-details'><span>Street:</span>" . $row["compStreet"] . "</p>";
         echo "<p class='quotation-details'><span>City:</span>" . $row["compCity"] . "</p>";
         echo "<p class='quotation-details'><span>State:</span>" . $row["compState"] . "</p>";
+        echo "<p class='quotation-details'><span>Postcode:</span>" . $row["compPcode"] . "</p>";
+        echo "<input type='hidden' name='DOn' value=".$row['DOn'].">";
+        echo "<div class='quotation-footer'><a href='history.php' class='button-primary' id='button'>Go Back</a><button type='submit' id='print-button' onclick='printPdf()'>Print</button></div>";
 
-
-        echo "<div class='quotation-footer'><a href='history.php' class='button-primary'>Go Back</a></div>";
+        echo "</div>";
         echo "</div>";
     } else {
         echo "No records found";
@@ -79,7 +84,7 @@ if(isset($_GET['id'])){
 
 $conn->close();
 ?>
-
+</form>
     <footer class="footer">
         <div class="footer-content">
             <p>Copyright ©️ 2023 KYROL Security Labs Sdn Bhd</p>
@@ -87,3 +92,102 @@ $conn->close();
     </footer>
 </body>
 </html>
+
+<style>
+button {
+  margin-left:30px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  border: 3px solid #1df071;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #1df071;
+  text-decoration: none;
+  transition: 0.3s ease all;
+  z-index: 1;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor:pointer;
+}
+
+button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #1df071;
+  z-index: -1;
+}
+
+button:hover, button:focus {
+  color: white;
+}
+
+button:hover:before, button:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+button:active {
+  transform: scale(0.9);
+}
+
+#button {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  border: 3px solid #f01835;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #f01835;
+  text-decoration: none;
+  transition: 0.3s ease all;
+  z-index: 1;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
+#button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #f01835;
+  z-index: -1;
+}
+
+#button:hover, #button:focus {
+  color: white;
+}
+
+#button:hover:before, #button:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+#button:active {
+  transform: scale(0.9);
+}
+</style>

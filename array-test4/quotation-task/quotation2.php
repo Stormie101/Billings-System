@@ -8,6 +8,7 @@ if(isset($_SESSION['username'])){
     exit();
 }
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Establish a database connection (replace with your actual database credentials)
@@ -42,16 +43,32 @@ if ($conn->connect_error) {
     $compStreet = $_POST["compStreet"];
     $compCity = $_POST["compCity"];
     $compState = $_POST["compState"];
+    $compPcode = $_POST["compPcode"];
 
-    $sql = "INSERT INTO client_quotation (att, tel, email, ref, QNo, DATES, SaleP, PAGES, compName, compStreet, compCity, compState, username) VALUES ('$att', '$tel', '$email', '$reference', '$QNo', '$Date', '$SaleP', '$Page', '$compName', '$compStreet', '$compCity', '$compState', '$usernames' )";
-    // ... Construct and execute similar queries for other data ...
-    if ($conn->query($sql) === TRUE) {
-        // echo "<p style='background-color:#50e991; color:white; text-align:center; font-size:20px; padding:15px;'>Data has entered successfully!</p>";
+    $years = date("Y", strtotime($Date));
+    $sets = "KSL/$years/Q/$QNo";
+
+    // Check if QNo already exists in the database
+    $checkQuery = "SELECT QNo FROM client_quotation WHERE QNo = '$QNo'";
+    $result = $conn->query($checkQuery);
+    
+    if ($result->num_rows > 0) {
+        // QNo already exists, handle accordingly (show an error message or take any other action)
+        $conn->close();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
+        // QNo doesn't exist, proceed with inserting the data
+        $sql = "INSERT INTO client_quotation (att, tel, email, ref, QNo, DATES, SaleP, PAGES, compName, compStreet, compCity, compState, compPcode, username, W_QNo) VALUES ('$att', '$tel', '$email', '$reference', '$QNo', '$Date', '$SaleP', '$Page', '$compName', '$compStreet', '$compCity', '$compState', '$compPcode', '$usernames', '$sets' )";
 
-$conn->close();
+        // Store the submitted QNo in the session
+        $_SESSION['submitted_QNo'] = $QNo;
+
+        if ($conn->query($sql) === TRUE) {
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
+        $conn->close();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -95,6 +112,9 @@ $conn->close();
     <input type="hidden" name="compStreet" value="<?php echo $compStreet ?>">
     <input type="hidden" name="compCity" value="<?php echo $compCity ?>">
     <input type="hidden" name="compState" value="<?php echo $compState ?>">
+    <input type="hidden" name="compPcode" value="<?php echo $compPcode ?>">
+    <input type="hidden" name="set" value="KSL/<?php echo $years ?>/Q/<?php echo $QNo ?>">
+
     
     <div class="content">
         <div id="innercontent" class="grid-container">
@@ -159,6 +179,10 @@ $conn->close();
                         <td><p>State:</p></td>
                         <td><p><?php echo $compState ?></p></td>
                     </tr>
+                    <tr>
+                        <td><p>Postcode:</p></td>
+                        <td><p><?php echo $compPcode ?></p></td>
+                    </tr>
                 </table>
             </div>
             <hr>
@@ -167,7 +191,6 @@ $conn->close();
         <table>
         <tr>
             <th>No</th>
-            <th>Item</th>
             <th>Description</th>
             <th>Quantity</th>
             <th>U.Price</th>
@@ -179,10 +202,9 @@ $conn->close();
         for ($i = 1; $i <= $numQuotations; $i++) {
             echo"<tr>";
             echo"<td><input input type='hidden' name='nom[]' value='$i' required></input>$i</td>";
-            echo"<td><input type='text' name='title[]' required> </input></td>";
             echo"<td><textarea name='desc[]' cols='30' rows='5' required> </textarea></td>";
-            echo"<td><input type='text' name='quantity[]' id='quantity_$i' value='" . (isset($_POST['quantity'][$i - 1]) ? $_POST['quantity'][$i - 1] : "") . "' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";
-            echo"<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";
+            echo"<td><input type='text' name='quantity[]' id='quantity_$i' value='" . (isset($_POST['quantity'][$i - 1]) ? $_POST['quantity'][$i - 1] : "") . "' oninput='calculateTotal($i); formatInput(this);' oninput='calculateTotal($i); updateCalculationTotals()' required></input></td>";
+            echo"<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='calculateTotal($i); formatInputs(this); updateCalculationTotals();' required></input></td>";
             echo"<td>
                     <select name='gst_option[]' id='gst_option_$i' onchange='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'>
                         <option value='no'>No</option>
@@ -246,9 +268,27 @@ $conn->close();
     </footer>
 </body>
 <script>
+document.getElementById("print-button").addEventListener("click", function() {
+    alert("Are you all set to continue?");
+});
+
+function formatInputs(input) {
+    let value = input.value.replace(/[^\d.]/g, '');  // Allow digits and decimal point only
+    let parts = value.split('.');
+
+    if (parts.length > 1) {
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        value = parts.join('.');
+    } else {
+        value = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    input.value = value;
+    calculateTotal(input.id.split('_')[2]); // Calculate total after formatting
+}
 function calculateTotal(index) {
-    var quantity = parseFloat(document.getElementById('quantity_' + index).value);
-    var unitPrice = parseFloat(document.getElementById('unit_price_' + index).value);
+    var quantity = parseFloat(document.getElementById('quantity_' + index).value.replace(/,/g, ''));
+    var unitPrice = parseFloat(document.getElementById('unit_price_' + index).value.replace(/,/g, ''));
     var gstOption = document.getElementById('gst_option_' + index).value;
     var discountPercentage = parseFloat(document.getElementById('discount_percentage_' + index).value) || 0;
     
@@ -264,7 +304,7 @@ function calculateTotal(index) {
     var total = totalBeforeDiscount - discountAmount;
 
     document.getElementById('gst_amount_' + index).value = gstAmount.toFixed(2);
-    document.getElementById('item_total_' + index).value = total.toFixed(2);
+    document.getElementById('item_total_' + index).value = total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
 
     // Recalculate all the totals
     updateCalculationTotals();
@@ -279,7 +319,7 @@ function updateCalculationTotals() {
 
     // Loop through the individual items to accumulate totals
     for (var i = 1; i <= <?php echo $numQuotations; ?>; i++) {
-        var itemTotal = parseFloat(document.getElementById('item_total_' + i).value);
+        var itemTotal = parseFloat(document.getElementById('item_total_' + i).value.replace(/,/g, '')); // Remove commas
         totalAmount += itemTotal;
 
         var discountPercentage = parseFloat(document.getElementById('discount_percentage_' + i).value) || 0;
@@ -303,11 +343,11 @@ function updateCalculationTotals() {
     totalGross = netAmount + totalGST;
 
     // Update the input fields with the calculated values
-    document.getElementById('total_amount').value = totalAmount.toFixed(2);
-    document.getElementById('total_discount').value = totalDiscount.toFixed(2); // Display total discount as actual amount
-    document.getElementById('net_amount').value = netAmount.toFixed(2);
-    document.getElementById('Tgst').value = totalGST.toFixed(2); // Set total GST value
-    document.getElementById('total_gross').value = totalGross.toFixed(2);
+    document.getElementById('total_amount').value = totalAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('total_discount').value = totalDiscount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('net_amount').value = netAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('Tgst').value = totalGST.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
+    document.getElementById('total_gross').value = totalGross.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); // Format as currency
 }
 
 
@@ -317,6 +357,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var quotationCounter = <?php echo $numQuotations; ?>;
     
+    function formatNumberInput(input) {
+        let value = input.value.replace(/[^\d.]/g, ''); // Remove non-numeric characters except decimal point
+        value = parseFloat(value.replace(/,/g, '')); // Remove commas and convert to float
+        input.value = value.toLocaleString('en-US', { maximumFractionDigits: 2 }); // Format as number with max 2 decimal places
+    }
+
     addQuotationButton.addEventListener("click", function() {
         quotationCounter++;
         

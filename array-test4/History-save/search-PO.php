@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 $searchTerm = $_POST['searchTerm'];
 
-$sql = "SELECT * FROM client_purchaseorder WHERE PO_Number = '$searchTerm'"; // Updated to search by 'PONo'
+$sql = "SELECT * FROM client_purchaseorder WHERE compName = '$searchTerm' ORDER BY id DESC";
 
 $result = $conn->query($sql);
 

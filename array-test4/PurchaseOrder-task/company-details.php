@@ -30,7 +30,7 @@ if ($result->num_rows > 0) {
     );
     echo json_encode($details);
 } else {
-    echo json_encode(array('compStreet' => '', 'compPcode' => '','compCity' =>'', 'compState' => '', 'compTel' => '', 'compFax' => ''));
+    echo json_encode(array('compStreet' => '', 'compPcode' => '','compCity' =>'', 'compState' => '', 'compTel' =>'', 'compFax' =>''));
 }
 
 $conn->close();

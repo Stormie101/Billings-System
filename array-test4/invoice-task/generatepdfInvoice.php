@@ -27,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     //Quotation
     $nom = $_POST["nom"];
-    $title = $_POST["title"];
     $desc = $_POST["desc"];
     $quantity = $_POST["quantity"];
     $price = $_POST["unit_price"];
@@ -52,6 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $compStreet = $_POST["compStreet"];
     $compCity = $_POST["compCity"];
     $compState = $_POST["compState"];
+    $compPcode = $_POST["compPcode"];
+    $set = $_POST["set"];
 
     //calculation section
     $Tamount = $_POST["total_amount"];
@@ -60,33 +61,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Tgst = $_POST["Tgst"];
     $Tgross = $_POST["gross_amount"];
     
-    // Loop through quotation items and insert into database
-     for ($i = 0; $i < count($nom); $i++) {
-       $num = $nom[$i];
-       $titles = $title[$i];
-       $INos = $INo;
-       $description = $desc[$i];
-       $quantitys = $quantity[$i];
-       $prices = $price[$i];
-       $gsts = $gst[$i];
-       $totalss = $totals[$i];
-       $references = $reference;
-  
-       // Insert data into the database
-       $sql = "INSERT INTO item_invoice (Invoice_No, num, item_name, descript, REF, quantity, Unit_Price, gstPer, TotalPer) VALUES ('$INos', '$num', '$titles', '$description', '$reference', '$quantitys', '$prices', '$gsts', '$totalss')";
-      
-       if ($conn->query($sql) !== true) {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-       }
-    }
+    $year = date("Y", strtotime($Date));
 
-     $sql2 = "INSERT INTO invoice (Inv_no, Total_Amount, Total_discount, Net, total_gst, Gross, REF) VALUES ('$INo','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross', '$reference')";
+    $checkQuery = "SELECT Invoice_No FROM item_invoice WHERE Invoice_No = '$INo'";
+    $result = $conn->query($checkQuery);
     
-     if ($conn->query($sql2) !== true) {
-       echo "Error: " . $sql2 . "<br>" . $conn->error;
+    if ($result->num_rows > 0) {
+      // QNo already exists, handle accordingly (show an error message or take any other action)
+      $conn->close();
+  } else {
+      // Loop through quotation items and insert into database
+      for ($i = 0; $i < count($nom); $i++) {
+        $num = $nom[$i];
+        $INos = $INo;
+        $description = $desc[$i];
+        $quantitys = $quantity[$i];
+        $prices = $price[$i];
+        $gsts = $gst[$i];
+        $totalss = $totals[$i];
+        $references = $reference;
+   
+        // Insert data into the database
+        $sql = "INSERT INTO item_invoice (Invoice_No, num, descript, REF, quantity, Unit_Price, gstPer, TotalPer, W_INo) VALUES ('$INos', '$num', '$description', '$reference', '$quantitys', '$prices', '$gsts', '$totalss', '$set')";
+       
+        if ($conn->query($sql) !== true) {
+             echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+     }
+ 
+      $sql2 = "INSERT INTO invoice (Inv_no, Total_Amount, Total_discount, Net, total_gst, Gross, REF) VALUES ('$INo','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross', '$reference')";
+     
+      if ($conn->query($sql2) !== true) {
+        echo "Error: " . $sql2 . "<br>" . $conn->error;
+   }
+        // Close the database connection
+      $conn->close();
   }
-       // Close the database connection
-     $conn->close();
+
+
 
     
     $html = '
@@ -99,52 +111,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="info">
       <br><br><br><br><br><br><br><br>
-      <p>INVOICE</p>
-      <h style="font-size: 13px;"><b>INV NO:</b> '. $INo .'</p><br>
-      
-      <label >Date:</label> '. $Date .'<br>
-      <label>Terms:</label> '. $Term .'<br>
-      <label>Sales Per:</label> '. $SaleP .'<br>
-      <label>P/O No:</label> '. $Pno .'<br>
-      <label>L/O Date:</label> '. $Ldate .'<br>
-      <label>Page:</label> '. $Pages .'
+      <p style="background-color:#203864; padding:3px 25px 3px 25px; border-bottom-left-radius: 5px; font-weight:normal;">INVOICE</p>
+      <table style="border-color:white; margin-top:20px; margin-right:15px;">
+      <tr>
+        <td style="padding-right:20px; text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">INV NO</td>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">'. $set .'</td>
+      </tr>
+      <tr>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">DATE</td>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $Date .'</td>
+      </tr>
+      <tr>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">TERMS</td>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $Term .'</td>
+      </tr>
+      <tr>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">SALES PER</td>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $SaleP .'</td>
+      </tr>
+      <tr>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">P/O NO</td>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $Pno .'</td>
+      </tr>
+      <tr>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">L/O DATE</td>
+        <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $Ldate .'
+      </td>
+      </tr>
+      <tr>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">PAGE</td>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $Pages .'</td>
+    </tr>
+    </table>
     </div>
 </head>
 <body>
   
   <div class="container">
-    <img src="kyrol.png" alt="Image" style="height:60px; width:160px"> <br><br>
-    <p style="font-size: 13px;">KYROL SECURITY LABS SDN BHD</p>
-    <p style="font-size: 13px;">C-09-01 I-Tech Tower Jalan Impact, Cyber 6</p>
-    <p style="font-size: 13px;"> 63000 Cyberjaya, Selangor Darul Ehsan, Malaysia</p>
-    <p style="font-size: 13px;">Tel: +60385855033 Fax: +60386855032</p>
-    <p style="font-size: 13px;">(GST Reg No: GST-000303255552)</p>
+  <img src="kyrol.png" alt="Image" style="width:150px; height:40px;">
+  <p style="font-size: 13px; line-height:2px; margin-top:40px; font-size:11px; color:black;">KYROL SECURITY LABS SDN BHD</p>
+  <p style="font-size: 13px; line-height:15px; font-size:11px; color:black;">C-09-01 I-Tech Tower Jalan Impact, Cyber 6</p>
+  <p style="font-size: 13px; line-height:15px; font-size:11px; color:black;"> 63000 Cyberjaya, Selangor Darul Ehsan, Malaysia</p>
+  <p style="font-size: 13px; line-height:15px; font-size:11px; color:black;">Tel: +60385855033 Fax: +60386855032</p>
+  <p style="font-size: 13px; line-height:15px; font-size:11px; color:black;">(GST Reg No: GST-000303255552)</p>
   </div>
 
 <div class="address">
-    <p class="compname">'. $compName .'</p>
+    <p class="compname" style="text-transform: uppercase;">'. $compName .'</p>
     <p class="street">'. $compStreet .'</p>
-    <p class="city-state-zip">'. $compCity .'</p>
+    <p class="city-state-zip">'. $compPcode .' '. $compCity .'</p>
     <p class="country">'. $compState .'</p>
     
   </div>
   
 <br>
-    <p style="font-size: 13px;"><b>ATT:</b> '. $att .'</p>
-    <p style="font-size: 13px;"><b>TEL:</b> '. $tel .'</p>
-    <p style="font-size: 13px;"><b>EMAIL:</b> '. $email .'</p>
-     <p style="font-size: 13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>REF:</b><b> '. $reference .' </b></p><br>
+<table style="border-color:white; width:200px;">
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">ATT</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase;">: '. $att .'</td>
+  </tr>
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">TEL</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black;">:  '. $tel .'</td>
+  </tr>
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">EMAIL</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black;"> : '. $email .'</td>
+  </tr>
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;"></td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase; font-weight:bold; width:250px;">REF: '. $reference .'</td>
+  </tr>
+</table>
 <br>
     <table style="text-align: center; font-size: 13px;">
         <thead>
            <tr>
-                <th>NO</th>
-                <th>Name</th>
-                <th>DESCRIPTION</th>
-                <th>QTY</th>
-                <th>U.PRICE</th>
-                <th>GST</th>
-                <th>TOTAL</th>
+                <th style="background-color:white; font-weight:normal; color:black;">NO.</th>
+                <th style="background-color:white; font-weight:normal; color:black; text-align:center;">DESCRIPTION</th>
+                <th style="background-color:white; font-weight:normal; color:black; text-align:center;">QTY</th>
+                <th style="background-color:white; font-weight:normal; color:black; text-align:center;">U.PRICE</th>
+                <th style="background-color:white; font-weight:normal; color:black; text-align:center;">GST</th>
+                <th style="background-color:white; font-weight:normal; color:black; text-align:center;">TOTAL</th>
            </tr> 
         </thead>
         <tbody>
@@ -152,66 +200,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     for ($i = 0; $i < count($nom); $i++){
         $html .= "<tr>";
-        $html .= "<td>". $nom[$i] ."</td>";
-        $html .= "<td>". $title[$i] ."</td>";
-        $html .= "<td>". nl2br($desc[$i]) ."</td>";
-        $html .= "<td>". $quantity[$i] ."</td>";
-        $html .= "<td>". $price[$i] ."</td>";
-        $html .= "<td>". $gst[$i] ."</td>";
-        $html .= "<td>". $totals[$i] ."</td>";
+        $html .= "<td style='color:black; width:10px;'>". $nom[$i] ."</td>";
+        $html .= "<td style='color:black; font-size:11px; text-align:left;'>". nl2br($desc[$i]) ."</td>";
+        $html .= "<td style='color:black; text-align:center;'>". $quantity[$i] ."</td>";
+        $html .= "<td style='color:black; text-align:right;'>". $price[$i] ."</td>";
+        $html .= "<td style='color:black; text-align:right;'>". $gst[$i] ."</td>";
+        $html .= "<td style='color:black; text-align:right;'>". $totals[$i] ."</td>";
         $html .= "</tr>"; 
     }
 
 
     $html .= '
     <tr style="border-top: 1px solid black;">
-    <td colspan="5" style="border:none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">Total:</td>
-    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tamount .'</td>
+    <td colspan="2" style="border:none; font-weight:bold; font-size:11px; color:black; padding:0px; line-spacing:2px;">General Terms and Conditions</td>
+    <td colspan="2" style="border:none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; text-align:left; padding:0px; padding-left:5px; color:black;">TOTAL</td>
+    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; padding:0px; color:black; text-align:right; padding-right:5px;">'. $Tamount .'</td>
   </tr>
   <tr>
-    <td colspan="5" style="border: none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black;font-size: 13px;">Discount:</td>
-    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tdiscount .'</td>
+    <td colspan="2" style="border: none; font-size:11px; padding:0px; color:black;">Payment Terms:</td>
+    <td colspan="2" style="border: none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black;font-size: 11px; text-align:left; padding:0px; padding-left:5px; color:black;">DISCOUNT</td>
+    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; padding:0px; color:black; text-align:right; padding-right:5px;">'. $Tdiscount .'</td>
   </tr>
   <tr>
-    <td colspan="5" style="border: none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">Net:</td>
-    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'.$Tnet .'</td>
+    <td colspan="2" style="border: none; font-size:11px; padding:0px; color:black;">Cheque/EFT to MAYBANK 568603061668 KYROL Security Labs Sdn Bhd</td>
+    <td colspan="2" style="border: none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; text-align:left; padding:0px; padding-left:5px; color:black;">NET</td>
+    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; padding:0px; color:black; text-align:right; padding-right:5px;">'.$Tnet .'</td>
   </tr>
   <tr>
-    <td colspan="5" style="border: none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">Add GST 6%:</td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tgst .'</td>
+    <td colspan="4" style="border: none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; text-align:left; padding:0px; padding-left:5px; color:black;">ADD GST 6%</td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; padding:0px; color:black; text-align:right; padding-right:5px;">'. $Tgst .'</td>
   </tr>
   
   <tr >
-    <td colspan="5" style="border: none; "></td>
-    <td style="border: none; font-size: 12px;"><b>GROSS (RM)</b></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tgross .'</td>
+    <td colspan="4" style="border: none; "></td>
+    <td style="border: none; font-size: 11px; padding:0px;"><b>GROSS ( RM )</b></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 11px; text-align:right; padding-right:5px; font-weight:bold; padding:0px;">'. $Tgross .'</td>
   </tr>
   
 </tbody>
 </table>
-<p style="font-size: 13px;"><b>General Terms and Conditions</b></p>
-<p style="font-size: 13px;">Payment Terms:</p>
-<p style="font-size: 13px;">Cheque/EFT to MAYBANK 568603061668 KYROL Security Labs Sdn Bhd </p>
-<br >
-<br>
 <br> 
-<div class="containers" style="margin-left:0px; margin-right:230px;">
-<p1>All cheque should be crossed & made payable to 
+<div class="containers" style="margin-left:0px; margin-right:100px;">
+<p1 style="font-size:11px; color:black;">All cheque should be crossed & made payable to 
 <br>"KYROL Security Labs Sdn Bhd"</p1>
-<br><br>
+<br><br><br><br><br>
 <p1>..................................................</p1><br>
-<p1>Company stamp signature</p1>
+<p1 style="font-size:11px; color:black; font-weight:normal;">Company stamp\'s  signature</p1>
 </div>
 
 <div class="signbox">
-<p1>For KYROL Security Labs Sdn Bhd</p1>
-<br><br><br><br>
+<p1 style="font-size:11px; color:black;">For KYROL Security Labs Sdn Bhd</p1>
+<img src="cop-kyrol.png" alt="Image" style="width:120px; height:100px; margin-top:25px;">
+<img src="sign3.png" alt="Image" style=" height:60px; margin-top:50px; margin-left:50px;">
+<br><br><br><br><br><br><br>
 <p1>..................................................</p1><br>
-<p1>Company stamp signature</p1>
+<p1 style="font-size:11px; color:black; font-weight:normal;">Company\'s stamp signature</p1>
 </div>
 
 <footer>
@@ -232,6 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         line-height: 1.7em;
         color: #7f8c8d;
         font-size: 13px;
+        font-family: Arial, sans-serif;
     }
     
     

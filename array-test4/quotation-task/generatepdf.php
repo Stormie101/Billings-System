@@ -21,13 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $html = "<html><body>";
-    // $unitArray = $_POST["unit"];
-    // $priceArray = $_POST["price"];
-    // Establish a database connection
-
     //Quotation
     $nom = $_POST["nom"];
-    $title = $_POST["title"];
     $desc = $_POST["desc"];
     $quantity = $_POST["quantity"];
     $price = $_POST["unit_price"];
@@ -48,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $compStreet = $_POST["compStreet"];
     $compCity = $_POST["compCity"];
     $compState = $_POST["compState"];
+    $compPcode = $_POST["compPcode"];
+    $set = $_POST["set"];
 
     //calculation section
     $Tamount = $_POST["total_amount"];
@@ -56,10 +53,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Tgst = $_POST["Tgst"];
     $Tgross = $_POST["gross_amount"];
     
+    $year = date("Y", strtotime($Date));
+    
+    $checkQuery = "SELECT Quotation_No FROM item_quotation WHERE Quotation_No = '$QNo'";
+    $result = $conn->query($checkQuery);
+    
+    if ($result->num_rows > 0) {
+      // QNo already exists, handle accordingly (show an error message or take any other action)
+      $conn->close();
+  } else {
     // Loop through quotation items and insert into database
     for ($i = 0; $i < count($nom); $i++) {
       $num = $nom[$i];
-      $titles = $title[$i];
       $QNos = $QNo;
       $description = $desc[$i];
       $quantitys = $quantity[$i];
@@ -69,27 +74,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $references = $reference;
   
       // Insert data into the database
-      $sql = "INSERT INTO item_quotation (num, item_name, Quotation_No, descript,  REF, quantity, Unit_Price, gstPer, TotalPer) VALUES ('$num','$titles', '$QNos', '$description', '$references', '$quantitys', '$prices', '$gsts', '$totalss')";
+      $sql = "INSERT INTO item_quotation (num, Quotation_No, descript,  REF, quantity, Unit_Price, gstPer, TotalPer, WQNo) VALUES ('$num', '$QNos', '$description', '$references', '$quantitys', '$prices', '$gsts', '$totalss', '$set')";
       
       if ($conn->query($sql) !== true) {
            echo "Error: " . $sql . "<br>" . $conn->error;
       }
     }
 
-    $sql2 = "INSERT INTO quotation (ref_no, Total_Amount, Total_discount, Net, total_gst, Gross, REF) VALUES ('$QNo','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross', '$reference')";
+    $sql2 = "INSERT INTO quotation (ref_no, Total_Amount, Total_discount, Net, total_gst, Gross, REF, QNo, WQNo) VALUES ('$QNo','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross', '$reference','$QNo','$set')";
     
     if ($conn->query($sql2) !== true) {
       echo "Error: " . $sql2 . "<br>" . $conn->error;
  }
       // Close the database connection
     $conn->close();
+  }
 
-    // for ($i = 0; $i < count($unitArray); $i++) {
-    //     $html .= "<h2>Quotation " . ($i + 1) . "</h2>";
-    //     $html .= "Unit: " . $unitArray[$i] . "<br>";
-    //     $html .= "Price: " . $priceArray[$i] . "<br><br>";
-    // }
-    
     $html = '<!DOCTYPE html>
 <html>
 <head>
@@ -97,46 +97,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <div class="info">
     <br><br><br><br><br><br><br><br>
-    <p style="padding:5px 35px 5px 35px; width:120px;">QUOTATION</p>
-    <label>REF NO:</label><b> KSL/2023/Q/'. $QNo .' </b><br>
-    <label>DATE:</label> <b>'. $Date .' <br>
-    <label>SALES PER:</label> '. $SaleP .'<br>
-    <label>PAGE:</label> '. $Page .'
+    <p style="background-color:#203864; padding:3px 25px 3px 25px; border-bottom-left-radius: 5px; font-weight:normal;">QUOTATION</p>
+    <table style="border-color:white; margin-top:20px; margin-right:15px;">
+    <tr>
+      <td style="padding-right:20px; text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">REF NO</td>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">'. $set .'</td>
+    </tr>
+    <tr>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">DATE</td>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $Date .'</td>
+    </tr>
+    <tr>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">SALES PER</td>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $SaleP .'</td>
+    </tr>
+    <tr>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; font-weight:bold; color:black;">PAGE</td>
+      <td style="text-align:left; border: 1px solid white; line-height:1px; font-size:12px; color:black;">'. $Page .'</td>
+    </tr>
+  </table>
     </div>
 </head>
 <body>
 <div class="container">
 <img src="kyrol.png" alt="Image" style="height: 55px; width:180px"><br>
-<p style="font-size: 12.5px; padding-bottom:-15px;">KYROL SECURITY LABS SDN BHD</p>
-<p style="font-size: 12.5px;">C-09-01 I-Tech Tower Jalan Impact, Cyber 6</p>
-<p style="font-size: 12.5px;"> 63000 Cyberjaya, Selangor Darul Ehsan, Malaysia</p>
-<p style="font-size: 12.5px;">Tel: +60385855033 Fax: +60386855032</p>
-<p style="font-size: 12.5px;">(GST Reg No: GST-000303255552)</p>
+<p style="font-size: 13px; line-height:2px; margin-top:40px; font-size:11px; color:black;">KYROL SECURITY LABS SDN BHD</p>
+<p style="font-size: 13px; line-height:15px; font-size:11px; color:black;">C-09-01 I-Tech Tower Jalan Impact, Cyber 6</p>
+<p style="font-size: 13px; line-height:15px; font-size:11px; color:black;"> 63000 Cyberjaya, Selangor Darul Ehsan, Malaysia</p>
+<p style="font-size: 13px; line-height:15px; font-size:11px; color:black;">Tel: +60385855033 Fax: +60386855032</p>
+<p style="font-size: 13px; line-height:15px; font-size:11px; color:black;">(GST Reg No: GST-000303255552)</p>
 </div>
 
 <div class="address">
-    <p class="compname">'. $compName .'</p>
+    <p class="compname" style="text-transform: uppercase;">'. $compName .'</p>
     <p class="street">'. $compStreet .'</p>
-    <p class="city-state-zip">'. $compCity .'</p>
+    <p class="city-state-zip">'. $compPcode .' '. $compCity .'</p>
     <p class="country">'. $compState .'</p>
 </div>
 
 <br>
-<p style="font-size: 12px;"><b>ATT:</b> '. $att .'</p>
-<p style="font-size: 12px;"><b>TEL:</b> '. $tel .'</p>
-<p style="font-size: 12px;"><b>EMAIL:</b> '. $email .'</p> 
-<p style="font-size: 14px; font-weight:bold; text-transform:uppercase;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>RE:</b> '. $reference .'</p><br>
+<table style="border-color:white; width:200px;">
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">ATT</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase;">:  '. $att .'</td>
+  </tr>
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">TEL</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black;">:   '. $tel .'</td>
+  </tr>
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">EMAIL</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black;"> :  '. $email .'</td>
+  </tr>
+  <tr>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;"></td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase; font-weight:bold; width:250px;">REF:  '. $reference .'</td>
+  </tr>
+</table>
 
 <table style ="text-align:center; font-size:13px;">
     <thead>
     <tr>
-    <th>NO</th>
-    <th>Name</th>
-    <th>DESCRIPTION</th>
-    <th>QTY</th>
-    <th>U.PRICE</th>
-    <th>GST</th>
-    <th>TOTAL</th>
+    <th style="background-color:white; font-weight:normal; color:black; width:40px;">NO</th>
+    <th style="background-color:white; font-weight:normal; color:black; text-align:center;">DESCRIPTION</th>
+    <th style="background-color:white; font-weight:normal; color:black; text-align:right;">QTY</th>
+    <th style="background-color:white; font-weight:normal; color:black; text-align:right;">U.PRICE</th>
+    <th style="background-color:white; font-weight:normal; color:black; text-align:right;">GST</th>
+    <th style="background-color:white; font-weight:normal; color:black; text-align:right;">TOTAL</th>
     </tr>
     </thead>
     <tbody>
@@ -145,55 +172,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     for ($i = 0; $i < count($nom); $i++){
         $html .= "<tr>";
         $html .= "<td>". $nom[$i] ."</td>";
-        $html .= "<td>". $title[$i] ."</td>";
-        $html .= "<td>". nl2br($desc[$i]) ."</td>";
-        $html .= "<td>". $quantity[$i] ."</td>";
-        $html .= "<td>". $price[$i] ."</td>";
-        $html .= "<td>". $gst[$i] ."</td>";
-        $html .= "<td>". $totals[$i] ."</td>";
+        $html .= "<td style='text-align:left;'>". nl2br($desc[$i]) ."</td>";
+        $html .= "<td style='text-align:right;'>". $quantity[$i] ."</td>";
+        $html .= "<td style='text-align:right;'>". $price[$i] ."</td>";
+        $html .= "<td style='text-align:right;'>". $gst[$i] ."</td>";
+        $html .= "<td style='text-align:right;'>". $totals[$i] ."</td>";
         $html .= "</tr>"; 
     }
 
 
     $html .= '
   <tr style="border-top: 1px solid black;">
-    <td colspan="5" style="border:none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">Total:</td>
-    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tamount .'</td>
+    <td colspan="2" style="border:none; padding:0px; line-spacing:2px; font-size:13px; font-weight:bold; color:black; padding-top:0px;w">General Terms and Conditions</td>
+    <td colspan="2" style="border:none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; padding-left:4px; padding-top:0px; padding-right:90px;">TOTAL</td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; text-align:right; padding-right:4px;">'. $Tamount .'</td>
   </tr>
   <tr>
-    <td colspan="5" style="border: none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">Discount:</td>
-    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tdiscount .'</td>
+    <td colspan="2" style="border:none;  padding:0px; line-spacing:2px; font-size:12px; color:black;">Upon Confirmation of the order, an Official Purchase Order is required</td>
+    <td colspan="2" style="border: none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; padding-left:4px;">DISCOUNT</td>
+    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; text-align:right; padding-right:4px;">'. $Tdiscount .'</td>
   </tr>
   <tr>
-    <td colspan="5" style="border: none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">Net:</td>
-    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tnet .'</td>
+    <td colspan="2" style="border:none; padding:0px; line-spacing:2px; font-size:12px; color:black;">This quotation is valid fourtheen (14) days from the quotation date</td>
+    <td colspan="2" style="border: none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; padding-left:4px;">NET</td>
+    <td  style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; text-align:right; padding-right:4px;">'. $Tnet .'</td>
   </tr>
   <tr>
-    <td colspan="5" style="border: none;"></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">Add GST 6%:</td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tgst .'</td>
+    <td colspan="2" style="border:none; padding:0px; line-spacing:2px; font-size:12px; color:black;">Delivery : Ex-stock otherwise to be advice</td>
+    <td colspan="2" style="border: none;"></td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; padding-left:4px;">ADD GST 6%:</td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; text-align:right; padding-right:4px;">'. $Tgst .'</td>
   </tr>
-  <tr >
-    <td colspan="5" style="border: none; "></td>
-    <td style="border: none; font-size: 13px;"><b>GROSS (RM)</b></td>
-    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px;">'. $Tgross .'</td>
+  <tr>
+    <td colspan="2" style="border:none; padding:0px; line-spacing:2px; font-size:12px; color:black;">Price are inclusive of delivery - Delivery at Place</td>
+    <td colspan="2" style="border: none; "></td>
+    <td style="border: none; font-size: 11px; padding:0px; padding-left:4px; font-size:12px; color:black; font-weight:bold; text-align:center;">GROSS ( RM )</td>
+    <td style="background-color: lightgray; border-color: black; border:1px solid black; font-size: 13px; padding:0px; text-align:right; padding-right:4px;">'. $Tgross .'</td>
   </tr>
 </tbody>
 </table>
-<p style="font-size: 20px;"><b>General Terms and Conditions</b></p>
-<p1>Upon Confirmation of the order, an Official Purchase Order is required </p1>
-<p1>This quotation is valid fourteen (14) days from the quotation date</p1>
-<p1>Delivery: Ex-stock otherwise to be avise</p1>
-<p1>Price are include of delivery- Delivery at Place</p1><br><br>
-<p1>Trust our quotation will meet your approval and look forware to your favorable confirmation in due course.</p1>
-<p1>Please do not hesitate to contact us if further information is required.</p1><br><br>
-<p1>Thank You.</p1><br>
-<b>This is computer generated and no sign required</b>
-<img src="AV_COP.png" alt="Image" style="margin-left: 350px; width:150px;">
+<p style="font-size:12px; color:black;">Trust our quotation will meet your approval and look forware to your favorable confirmation in due course.</p>
+<p style="font-size:12px; color:black;">Please do not hesitate to contact us if further information is required.</p>
+<div class="containers" style="margin-left:0px; margin-right:100px;"><br>
+<p1 style="font-size:12px; color:black; font-weight:normal;">Thank you
+<br><b style="font-size:12px;"><br>This is computer generated and no sign required<b></p1><br><br>
+</div>
 
+<div class="signbox">
+<img src="cop-kyrol.png" alt="Image" style="width:120px; height:110px; margin-top:5px; opacity: 0.9;">
+<img src="sign3.png" alt="Image" style=" height:65px; margin-top:35px; margin-left:55px;">
+</div>
 <footer>
 
 </footer>
@@ -212,10 +243,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         line-height: 1.7em;
         color: #7f8c8d;
         font-size: 13px;
+        font-family: Arial, sans-serif;
     }
     
     
     
+  
     
     .pure-img-responsive {
         max-width: 100%;
@@ -762,6 +795,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     b{
       font-size: 14px;
     }
+
+    .container {
+      display: flex;
+      justify-content: space-between; /* Align items with space in between */
+      align-items: center; /* Center items vertically */
+  }
+  
+  .text {
+      text-align: left; /* Align text to the left */
+  }
+  
+  
     </style>
     </body>
     </html>';

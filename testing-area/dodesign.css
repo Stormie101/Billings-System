@@ -1,0 +1,16 @@
+
+  table {
+    border-collapse: collapse;
+    width: 300px; /* Adjust the width as needed */
+  }
+
+  td {
+    border: 1px solid black;
+    padding: 10px; 
+    text-align: center;
+  }
+
+  .empty-column {
+    padding-right: 100px;
+    padding-bottom: 40px;
+  }

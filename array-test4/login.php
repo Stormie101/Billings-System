@@ -13,7 +13,7 @@
     <header>
         <img src="kyrol.png" alt="">
         <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Billing System 0.3</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Billing System 0.5</p>
     </header>
     <!-- header end -->
 

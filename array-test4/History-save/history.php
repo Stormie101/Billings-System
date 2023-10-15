@@ -68,7 +68,7 @@ $conn->close();
 
     <div id="quotationTable">
     <form method="post" id="searchForm">
-        <input type="text" class="searchbar" name="search" placeholder="Search For Quotation's ID">
+        <input type="text" class="searchbar" id="searchbar1"  name="search" placeholder="Search For Company's Name">
         <input type="submit" class="searchbutton" name="submit" value="Search">
     </form>
     <ul class="search-results" style="background-color:white; margin-top:15px;"></ul>
@@ -78,11 +78,11 @@ $conn->close();
             <tr>
                 <th>No</th>
                 <th>QO NO.</th>
-                <th>ATT</th>
-                <th>Phone Number</th>
-                <th>Email</th>
                 <th>Reference</th>
+                <th>Company Name</th>
+                <th>Attention To</th>
                 <th>Submit By</th>
+                <th>Date</th>
                 <th>View</th>
             </tr>
         </thead>
@@ -91,14 +91,16 @@ $conn->close();
             if ($result->num_rows > 0) {
                 $count = 1;
                 while($row = $result->fetch_assoc()) {
+                    $date = $row["DATES"];
+                    $year = date("Y", strtotime($date)); // Extract the year from the "Dates" data            
                     echo "<tr>";
                     echo "<td>" . $count . "</td>";
-                    echo "<td>" . $row["QNo"] . "</td>";
-                    echo "<td>" . $row["ATT"] . "</td>";
-                    echo "<td>" . $row["TEL"] . "</td>";
-                    echo "<td>" . $row["EMAIL"] . "</td>";
+                    echo "<td>KSL/" . $year . "/Q/" . $row["QNo"] . "</td>";
                     echo "<td>" . $row["REF"] . "</td>";
+                    echo "<td>" . $row["compName"] . "</td>";
+                    echo "<td>" . $row["ATT"] . "</td>";
                     echo "<td>" . $row["username"] . "</td>";
+                    echo "<td>" . $row["DATES"] . "</td>";
                     echo "<td><a href='viewmore-quotation.php?id=" . $row["id"] . "'><i class='fa fa-eye' style='color:gray;'></i></a></td>";
                     echo "</tr>";
                     $count++;
@@ -113,7 +115,7 @@ $conn->close();
     
     <div id="invoiceTable" class="hidden">
     <form method="post" id="searchForm-invoice" class="searchform1">
-        <input type="text" class="searchbar-invoice" id="searchbar1" name="search_invoice" placeholder="Search For Invoice's ID">
+        <input type="text" class="searchbar-invoice" id="searchbar1" name="search_invoice" placeholder="Search For Company's Name">
         <input type="submit" class="searchbutton" name="submit_invoice" value="Search">
     </form>
     <ul class="search-results-invoice" style="background-color:white; margin-top:15px;"></ul>
@@ -123,13 +125,11 @@ $conn->close();
             <tr>
                 <th>No.</th>
                 <th>Invoice No.</th>
-                <th>ID</th>
-                <th>ATT</th>
-                <th>Phone Number</th>
-                <th>Email</th>
                 <th>Reference</th>
-                <th>SPerson</th>
+                <th>Company Name</th>
+                <th>Attention To</th>
                 <th>Submit By</th>
+                <th>Date</th>
                 <th>View</th>
             </tr>
         </thead>
@@ -138,16 +138,16 @@ $conn->close();
             if ($results->num_rows > 0) {
                 $counts = 1;
                 while($rowz = $results->fetch_assoc()) {
+                    $date = $rowz["Dates"];
+                    $years = date("Y", strtotime($date)); // Extract the year from the "Dates" data     
                     echo "<tr>";
                     echo "<td>" . $counts . "</td>";
-                    echo "<td>" . $rowz["INo"] . "</td>";
-                    echo "<td>" . $rowz["id"] . "</td>";
-                    echo "<td>" . $rowz["ATT"] . "</td>";
-                    echo "<td>" . $rowz["TEL"] . "</td>";
-                    echo "<td>" . $rowz["EMAIL"] . "</td>";
+                    echo "<td>KSL/" . $year . "/I/" . $rowz["INo"] . "</td>";
                     echo "<td>" . $rowz["REF"] . "</td>";
-                    echo "<td>" . $rowz["SaleP"] . "</td>";
+                    echo "<td>" . $rowz["compName"] . "</td>";
+                    echo "<td>" . $rowz["ATT"] . "</td>";
                     echo "<td>" . $rowz["username"] . "</td>";
+                    echo "<td>" . $rowz["Dates"] . "</td>";
                     echo "<td><a href='viewmore-invoice.php?id=" . $rowz["id"] . "'><i class='fa fa-eye' style='color:gray;'></i></a></td>";
                     echo "</tr>";
                     $counts++;
@@ -162,7 +162,7 @@ $conn->close();
     
     <div id="purchaseTable" class="hidden">
     <form method="post" id="searchForm-purchaseorder" class="searchform1">
-        <input type="text" class="searchbar-purchaseorder" id="searchbar1" name="search" placeholder="Search For Purchase Order's ID">
+        <input type="text" class="searchbar-purchaseorder" id="searchbar1" name="search" placeholder="Search For Company's Name">
         <input type="submit" class="searchbutton" name="submit" value="Search">
     </form>
     <ul class="search-results-purchaseorder" style="background-color:white; margin-top:15px;"></ul>
@@ -172,17 +172,9 @@ $conn->close();
             <tr>
                 <th>No.</th>
                 <th>Purchase No.</th>
-                <th>Dates</th>
                 <th>Company Name</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Requistioner</th>
-                <th>Ship Via</th>
-                <th>FOB</th>
-                <th>Ship Term</th>
-                <th>Ship Date</th>
                 <th>Submit By</th>
+                <th>Date</th>
                 <th>View</th>
             </tr>
         </thead>
@@ -191,20 +183,14 @@ $conn->close();
             if ($resultsz->num_rows > 0) {
                 $countsz = 1;
                 while($rowsz = $resultsz->fetch_assoc()) {
+                    $date = $rowsz["Dates"];
+                    $year = date("Y", strtotime($date)); // Extract the year from the "Dates" data  
                     echo "<tr>";
                     echo "<td>" . $countsz . "</td>";
-                    echo "<td>" . $rowsz["PO_Number"] . "</td>";
-                    echo "<td>" . $rowsz["Dates"] . "</td>";
+                    echo "<td>KSL/" . $year . "/PO/" . $rowsz["PO_Number"] . "</td>";
                     echo "<td>" . $rowsz["compName"] . "</td>";
-                    echo "<td>" . $rowsz["compStreet"] . "</td>";
-                    echo "<td>" . $rowsz["compCity"] . "</td>";
-                    echo "<td>" . $rowsz["compState"] . "</td>";
-                    echo "<td>" . $rowsz["Requist"] . "</td>";
-                    echo "<td>" . $rowsz["ShipVia"] . "</td>";
-                    echo "<td>" . $rowsz["FOB"] . "</td>";
-                    echo "<td>" . $rowsz["ShipTerm"] . "</td>";
-                    echo "<td>" . $rowsz["ShipDate"] . "</td>";
                     echo "<td>" . $rowsz["username"] . "</td>";
+                    echo "<td>" . $rowsz["Dates"] . "</td>";
                     echo "<td><a href='viewmore-PO.php?id=" . $rowsz["id"] . "'><i class='fa fa-eye' style='color:gray;'></i></a></td>";
                     echo "</tr>";
                     $countsz++;
@@ -218,8 +204,8 @@ $conn->close();
     </div>
     
     <div  id="deliveryTable" class="hidden">
-    <form method="post" id="searchForm-deliveryorder" class="searchform1">>
-        <input type="text" class="searchbar-deliveryorder" id="searchbar1" class="searchbar" name="search" placeholder="Search For Delivery Order">
+    <form method="post" id="searchForm-deliveryorder" class="searchform1">
+        <input type="text" class="searchbar-deliveryorder" id="searchbar1" class="searchbar" name="search" placeholder="Search For Company's Name">
         <input type="submit" class="searchbutton" name="submit">
     </form>
     <ul class="search-results-deliveryorder" style="background-color:white; margin-top:15px;"></ul>
@@ -229,13 +215,9 @@ $conn->close();
             <tr>
                 <th>No.</th>
                 <th>Delivery No.</th>
-                <th>Name</th>
-                <th>Phone Number</th>
-                <th>Email</th>
-                <th>Term</th>
-                <th>Sale Person</th>
-                <th>Reference</th>
+                <th>Company Name</th>
                 <th>Submit By</th>
+                <th>Date</th>
                 <th>View</th>
             </tr>
         </thead>
@@ -244,16 +226,14 @@ $conn->close();
             if ($resultszs->num_rows > 0) {
                 $countszs = 1;
                 while($rowszs = $resultszs->fetch_assoc()) {
+                    $date = $rowszs["Dates"];
+                    $year = date("Y", strtotime($date)); // Extract the year from the "Dates" data  
                     echo "<tr>";
                     echo "<td>" . $countszs . "</td>";
-                    echo "<td>" . $rowszs["DOn"] . "</td>";
-                    echo "<td>" . $rowszs["att"] . "</td>";
-                    echo "<td>" . $rowszs["tel"] . "</td>";
-                    echo "<td>" . $rowszs["email"] . "</td>";
-                    echo "<td>" . $rowszs["Terms"] . "</td>";
-                    echo "<td>" . $rowszs["SaleP"] . "</td>";
-                    echo "<td>" . $rowszs["ref"] . "</td>";
+                    echo "<td>KSL/" . $year . "/DO/" . $rowszs["DOn"] . "</td>";
+                    echo "<td>" . $rowszs["compName"] . "</td>";
                     echo "<td>" . $rowszs["username"] . "</td>";
+                    echo "<td>" . $rowszs["Dates"] . "</td>";
                     echo "<td><a href='viewmore-DO.php?id=" . $rowszs["id"] . "'><i class='fa fa-eye' style='color:gray;'></i></a></td>";
 
                     echo "</tr>";
@@ -351,11 +331,12 @@ document.addEventListener('DOMContentLoaded', function() {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>ATT</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
+                    <th>QO NO.</th>
                     <th>Reference</th>
+                    <th>Company Name</th>
+                    <th>Attention To</th>
                     <th>Submit By</th>
+                    <th>Date</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -365,13 +346,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (const result of data) {
             const row = document.createElement('tr');
+            const date = new Date(result.DATES);
+            const year = date.getFullYear(); // Extract the year
             row.innerHTML = `
                 <td>${result.id}</td>
-                <td>${result.ATT}</td>
-                <td>${result.TEL}</td>
-                <td>${result.EMAIL}</td>
+                <td>KSL/${year}/Q/${result.QNo}</td>
                 <td>${result.REF}</td>
+                <td>${result.compName}</td>
+                <td>${result.ATT}</td>
                 <td>${result.username}</td>
+                <td>${result.DATES}</td>
                 <td><a href='viewmore-quotation.php?id=${result.id}'><i class='fa fa-eye' style='color:gray;'></i></a></td>
             `;
             table.querySelector('tbody').appendChild(row);
@@ -414,12 +398,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <thead>
                 <tr>
                     <th>Invoice No.</th>
-                    <th>ATT</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
                     <th>Reference</th>
-                    <th>Sale Person</th>
+                    <th>Company Name</th>
+                    <th>Attention To</th>
                     <th>Submit By</th>
+                    <th>Dates</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -429,14 +412,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (const result of data) {
             const row = document.createElement('tr');
+            const date = new Date(result.Dates);
+            const year = date.getFullYear(); // Extract the year
+            
             row.innerHTML = `
-                <td>${result.INo}</td>
-                <td>${result.ATT}</td>
-                <td>${result.TEL}</td>
-                <td>${result.EMAIL}</td>
-                <td>${result.SaleP}</td>
+                <td>KSL/${year}/I/${result.INo}</td>
                 <td>${result.REF}</td>
+                <td>${result.compName}</td>
+                <td>${result.ATT}</td>
                 <td>${result.username}</td>
+                <td>${result.Dates}</td>
                 <td><a href='viewmore-invoice.php?id=${result.id}'><i class='fa fa-eye' style='color:gray;'></i></a></td>
             `;
             table.querySelector('tbody').appendChild(row);
@@ -480,8 +465,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <th>ID</th>
                     <th>Purchase No.</th>
                     <th>Company Name</th>
-                    <th>Dates</th>
                     <th>Submit By</th>
+                    <th>Dates</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -491,12 +476,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (const result of data) {
             const row = document.createElement('tr');
+            const date = new Date(result.Dates);
+            const year = date.getFullYear(); // Extract the year
             row.innerHTML = `
                 <td>${result.id}</td>
-                <td>${result.PO_Number}</td>
+                <td>KSL/${year}/PO/${result.PO_Number}</td>
                 <td>${result.compName}</td>
-                <td>${result.Dates}</td>
                 <td>${result.username}</td>
+                <td>${result.Dates}</td>
                 <td><a href='viewmore-PO.php?id=${result.id}'><i class='fa fa-eye' style='color:gray;'></i></a></td>
             `;
             table.querySelector('tbody').appendChild(row);
@@ -539,13 +526,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <tr>
                     <th>ID</th>
                     <th>Delivery No.</th>
-                    <th>Name</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Term</th>
-                    <th>Sale Person</th>
-                    <th>Reference</th>
+                    <th>Company Name</th>
                     <th>Submit By</th>
+                    <th>Date</th>
                     <th>View</th>
                 </tr>
             </thead>
@@ -555,16 +538,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (const result of data) {
             const row = document.createElement('tr');
+            const date = new Date(result.Dates);
+            const year = date.getFullYear(); // Extract the year
             row.innerHTML = `
                 <td>${result.id}</td>
-                <td>${result.DOn}</td>
-                <td>${result.att}</td>
-                <td>${result.tel}</td>
-                <td>${result.email}</td>
-                <td>${result.Terms}</td>
-                <td>${result.SaleP}</td>
-                <td>${result.ref}</td>
+                <td>KSL/${year}/DO/${result.DOn}</td>
+                <td>${result.compName}</td>
                 <td>${result.username}</td>
+                <td>${result.Dates}</td>
                 <td><a href='viewmore-DO.php?id=${result.id}'><i class='fa fa-eye' style='color:gray;'></i></a></td>
 
             `;

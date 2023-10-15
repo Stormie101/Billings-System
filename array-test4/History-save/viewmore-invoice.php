@@ -24,6 +24,7 @@ if(isset($_SESSION['username'])){
         <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
         <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Invoice Detail</p>
     </header>
+    <form action="generatepdfInvoice.php" method="post">
 <?php
 $servername = "localhost";
 $username = "root";
@@ -42,11 +43,14 @@ if(isset($_GET['id'])){
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
+
         $row = $result->fetch_assoc();
+        $year = date('Y', strtotime($row["Dates"]));
+
         // Display the detailed information here
         echo "<div class='quotation-container'>";
         echo "<h1 class='quotation-details' style='font-size:30px;'>Client Detail</h1>";
-        echo "<h1 class='quotation-details'>Quotation ID: " . $row["INo"] . "</h1>";
+        echo "<h1 class='quotation-details'>Quotation ID: KSL/" . $year . "/I/" . $row["INo"] . "</h1>";
         echo "<p class='quotation-details'><span>Attention To (ATT) :</span>" . $row["ATT"] . "</p>";
         echo "<p class='quotation-details'><span>Phone Number:</span>" . $row["TEL"] . "</p>";
         echo "<p class='quotation-details'><span>Email:</span>" . $row["EMAIL"] . "</p>";
@@ -65,10 +69,11 @@ if(isset($_GET['id'])){
         echo "<p class='quotation-details'><span>Street:</span>" . $row["compStreet"] . "</p>";
         echo "<p class='quotation-details'><span>City:</span>" . $row["compCity"] . "</p>";
         echo "<p class='quotation-details'><span>State:</span>" . $row["compState"] . "</p>";
+        echo "<p class='quotation-details'><span>Postcode:</span>" . $row["compPcode"] . "</p>";
 
-        // Add more details as needed
-
-        echo "<div class='quotation-footer'><a href='history.php' class='button-primary'>Go Back</a></div>";
+        echo "<input type='hidden' name='INo' value=".$row['INo'].">";
+        echo "<div class='quotation-footer'><a href='history.php' class='button-primary' id='button'>Go Back</a><button type='submit' id='print-button' onclick='printPdf()'>Print</button></div>";
+        echo "</div>";
         echo "</div>";
     } else {
         echo "No records found";
@@ -79,6 +84,7 @@ if(isset($_GET['id'])){
 
 $conn->close();
 ?>
+</form>
 
 <footer class="footer">
         <div class="footer-content">
@@ -87,3 +93,103 @@ $conn->close();
     </footer>
 </body>
 </html>
+
+
+<style>
+button {
+  margin-left:30px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  border: 3px solid #1df071;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #1df071;
+  text-decoration: none;
+  transition: 0.3s ease all;
+  z-index: 1;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor:pointer;
+}
+
+button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #1df071;
+  z-index: -1;
+}
+
+button:hover, button:focus {
+  color: white;
+}
+
+button:hover:before, button:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+button:active {
+  transform: scale(0.9);
+}
+
+#button {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  border: 3px solid #f01835;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #f01835;
+  text-decoration: none;
+  transition: 0.3s ease all;
+  z-index: 1;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
+#button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: '';
+  background-color: #f01835;
+  z-index: -1;
+}
+
+#button:hover, #button:focus {
+  color: white;
+}
+
+#button:hover:before, #button:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+#button:active {
+  transform: scale(0.9);
+}
+</style>

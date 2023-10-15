@@ -126,11 +126,11 @@ $conn->close();
                     </tr>
                     <tr>
                         <td><p>Telephone:</p></td>
-                        <td><p><input type="number" name="compTel" id="compTel"  required></p></td>
+                        <td><p><input type="text" name="compTel" id="compTel"  required></p></td>
                     </tr>
                     <tr>
                         <td><p>Fax:</p></td>
-                        <td><p><input type="number" name="compFax" id="compFax"  required></p></td>
+                        <td><p><input type="text" name="compFax" id="compFax"  required></p></td>
                     </tr>
                 </table>
             </div>
@@ -162,7 +162,7 @@ $conn->close();
         
         <label>Enter the number of item (10 max):</label>
         <input type="number" name="numQuotations" min="1" max="10" style="width:500px;" required>
-        <button type="submit">Proceed</button>
+        <button type="submit" onclick="test()">Proceed</button>
     </form>
     </div>
     </div>
@@ -172,4 +172,9 @@ $conn->close();
         </div>
     </footer>
 </body>
+<script>
+function test() {
+  alert("Continue?");
+}
+</script>
 </html>

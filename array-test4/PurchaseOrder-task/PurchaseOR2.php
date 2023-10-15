@@ -48,17 +48,27 @@ if ($conn->connect_error) {
     $compTel = $_POST["compTel"];
     $compFax = $_POST["compFax"];
 
-    $QNo = isset($_POST["QNo"]) && !empty($_POST["QNo"]) ? $_POST["QNo"] : "none";
+    $years = date("Y", strtotime($Dates));
+    $sets = "KSL/$years/PO/$POno";
 
-    $sql = "INSERT INTO client_purchaseorder (PO_Number, Dates, compName, compStreet, compCity, compPcode, compState, Requist, ShipVia, FOB, ShipTerm, ShipDate, username) VALUES ('$POno','$Dates','$compName','$compStreet','$compCity', '$compPcode','$compState','$Req','$ShipV','$Fob','$Sterm','$Sdate','$usernames')";
-    // ... Construct and execute similar queries for other data ...
-    if ($conn->query($sql) === TRUE) {
-        // echo "<p style='background-color:#50e991; color:white; text-align:center; font-size:20px; padding:15px;'>Data has entered successfully!</p>";
+    // Check if QNo already exists in the database
+    $checkQuery = "SELECT PO_Number FROM client_purchaseorder WHERE PO_Number = '$POno'";
+    $result = $conn->query($checkQuery); 
+
+    if ($result->num_rows > 0) {
+        // QNo already exists, handle accordingly (show an error message or take any other action)
+        $conn->close();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        $sql = "INSERT INTO client_purchaseorder (PO_Number, Dates, compName, compStreet, compCity, compPcode, compState, compTel, compFax, Requist, ShipVia, FOB, ShipTerm, ShipDate, username, W_PO) VALUES ('$POno','$Dates','$compName','$compStreet','$compCity', '$compPcode','$compState','$compTel', '$compFax','$Req','$ShipV','$Fob','$Sterm','$Sdate','$usernames', '$sets')";
+        // ... Construct and execute similar queries for other data ...
+        if ($conn->query($sql) === TRUE) {
+            // echo "<p style='background-color:#50e991; color:white; text-align:center; font-size:20px; padding:15px;'>Data has entered successfully!</p>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    
+    $conn->close();
     }
-
-$conn->close();
 }
 ?>
 <!DOCTYPE html>
@@ -104,6 +114,10 @@ $conn->close();
     <input type="hidden" name="compCity" value="<?php echo $compCity ?>">
     <input type="hidden" name="compPcode" value="<?php echo $compPcode ?>">
     <input type="hidden" name="compState" value="<?php echo $compState ?>">
+    <input type="hidden" name="compTel" value="<?php echo $compTel ?>">
+    <input type="hidden" name="compFax" value="<?php echo $compFax ?>">
+    <input type="hidden" name="set" value="KSL/<?php echo $years ?>/PO/<?php echo $POno ?>">
+
     
     <div class="content">
         <div id="innercontent">
@@ -142,6 +156,14 @@ $conn->close();
                     <tr>
                         <td><p>State:</p></td>
                         <td><p><?php echo $compState ?></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Telephone:</p></td>
+                        <td><p><?php echo $compTel ?></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Fax:</p></td>
+                        <td><p><?php echo $compFax ?></p></td>
                     </tr>
                 </table>
             </div>
@@ -191,7 +213,7 @@ $conn->close();
             echo"<td><textarea name='desc[]' cols='30' rows='5' required> </textarea></td>";
             echo "<td><input type='date' name='PODate[]' id='PODate[]'> </input></td>";
             echo"<td><input type='text' name='quantity[]' id='quantity_$i' oninput='formatInput(this); calculateTotal($i)' required></input></td>";
-            echo"<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='formatInput(this); calculateTotal($i)' required></input></td>";
+            echo"<td><input type='text' name='unit_price[]' id='unit_price_$i' oninput='calculateTotal($i); formatInputs(this); updateCalculationTotals();' required></input></td>";
             echo"<td>
                     <select name='gst_option[]' id='gst_option_$i' onchange='calculateTotal($i)' oninput='calculateTotal($i); updateCalculationTotals()'>
                         <option value='no'>No</option>
@@ -261,12 +283,22 @@ $conn->close();
     </footer>
 </body>
 <script>
+document.getElementById("print-button").addEventListener("click", function() {
+    alert("Are you all set to continue?");
+});
+function formatInputs(input) {
+    let value = input.value.replace(/[^\d.]/g, '');  // Allow digits and decimal point only
+    let parts = value.split('.');
 
-function formatInput(input) {
-    let value = input.value.replace(/[^\d.]/g, ''); // Remove non-numeric characters except decimal point
-    value = parseFloat(value.replace(/,/g, '')); // Remove commas and convert to float
-    input.value = value.toLocaleString('en-US', { maximumFractionDigits: 2 }); // Format as number with max 2 decimal places
-    updateCalculationTotals(); // Update totals after formatting
+    if (parts.length > 1) {
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        value = parts.join('.');
+    } else {
+        value = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    input.value = value;
+    calculateTotal(input.id.split('_')[2]); // Calculate total after formatting
 }
 
 function calculateTotal(index) {

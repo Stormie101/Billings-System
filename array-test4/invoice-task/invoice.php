@@ -33,19 +33,6 @@ if ($result->num_rows > 0) {
     $new_quotation_number = 1;
 }
 
-// Retrieve the current highest quotation number
-$sqls = "SELECT MAX(PO_no) AS PO FROM client_invoice";
-$results = $conn->query($sqls);
-
-if ($results->num_rows > 0) {
-    $rows = $results->fetch_assoc();
-    $current_PO_number = $rows['PO'];
-    $new_PO_number = $current_PO_number + 1;
-} else {
-    // If there are no records yet, start from 1
-    $new_PO_number = 1;
-}
-
 $conn->close();
 
 ?>
@@ -95,6 +82,7 @@ $(document).ready(function() {
                 $('#compStreet').val(detailsz.compStreet);
                 $('#compCity').val(detailsz.compCity);
                 $('#compState').val(detailsz.compState);
+                $('#compPcode').val(detailsz.compPcode);
             }
         });
     });
@@ -174,7 +162,7 @@ $(document).ready(function() {
                     </tr>
                     <tr>
                         <td><p>P/O No:</p></td>
-                        <td><p><input type="number" name="Pno" value="<?php echo $new_PO_number; ?>" required readonly></p></td>
+                        <td><p><input type="text" name="Pno" required></p></td>
                     </tr>
                     <tr>
                         <td><p>L/O Date:</p></td>
@@ -182,7 +170,6 @@ $(document).ready(function() {
                     </tr>
                     <tr>
                         <td><p>Pages:</p></td>
-                        <!-- <td><p><input type="number" name="Pages" required></p></td> -->
                         <td>
                         <select id="Pages" name="Pages" required>
                             <option value="1">1</option>
@@ -213,12 +200,16 @@ $(document).ready(function() {
                         <td><p>State:</p></td>
                         <td><p><input type="text" name="compState" id="compState" required></p></td>
                     </tr>
+                    <tr>
+                        <td><p>Postcode:</p></td>
+                        <td><p><input type="number" name="compPcode" id="compPcode"  required></p></td>
+                    </tr>
                 </table>
             </div>
         
         <label>Enter the number of item (10 max):</label>
         <input type="number" name="numQuotations" min="1" max="10" style="width:500px;" required>
-        <button type="submit">Proceed</button>
+        <button type="submit" onclick="test()">Proceed</button>
     </form>
     </div>
     </div>
@@ -228,4 +219,9 @@ $(document).ready(function() {
         </div>
     </footer>
 </body>
+<script>
+function test() {
+  alert("Continue?");
+}
+</script>
 </html>

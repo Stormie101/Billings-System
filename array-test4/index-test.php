@@ -23,13 +23,13 @@ if(isset($_SESSION['username'])){
     <header>
         <img src="kyrol.png" alt="">
         <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Billing System 0.3</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Billing System 0.5</p>
     </header>
 
     <div class="holder">
     <div class="welcome-text"><p>Welcome <?php echo $username; ?></p><a href="logout.php" id="log-out">Log-out</a></div><hr style="margin-bottom:8px;"><!-- Added Welcome text with horizontal rule -->
     <div class="row">
-        <a href="CNC.php" class="dashboard-button" style="text-decoration: none;">COMPANY / CLIENT</a>
+        <a href="CompanyClient/CNC.php" class="dashboard-button" style="text-decoration: none;">COMPANY / CLIENT</a>
     </div>
     <div class="row">
         <a href="invoice-task/invoice.php" class="dashboard-button" style="text-decoration: none;">INVOICE</a>

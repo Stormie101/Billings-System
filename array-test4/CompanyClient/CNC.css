@@ -116,7 +116,7 @@ td, th {
     padding-right: 15px;
 }
 
-#buttonholder{
+#buttonholder a{
     border: 1px solid darkcyan;
     border-radius: 7px;
     margin-left: 50px;
@@ -124,18 +124,11 @@ td, th {
     width: max-content;
     padding: 10px;
     background-color: darkcyan;
-}
-
-#buttonholder a{
  color: white;
  text-decoration: none;
 }
 
 #buttonholder a:hover{
-    background-color: rgb(5, 151, 151);
-    border-color: rgb(5, 151, 151);
-}
-#buttonholder:hover{
     background-color: rgb(5, 151, 151);
     border-color: rgb(5, 151, 151);
     cursor: pointer;

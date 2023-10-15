@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 $searchTerm = $_POST['searchTerm'];
 
-$sql = "SELECT * FROM client_invoice WHERE INo = '$searchTerm'"; // Modified to search by 'INo'
+$sql = "SELECT * FROM client_invoice WHERE compName = '$searchTerm' ORDER BY id DESC";
 
 $result = $conn->query($sql);
 

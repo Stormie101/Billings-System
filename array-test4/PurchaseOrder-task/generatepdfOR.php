@@ -49,6 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $compCity = $_POST["compCity"];
     $compPcode = $_POST["compPcode"];
     $compState = $_POST["compState"];
+    $compTel = $_POST["compTel"];
+    $compFax = $_POST["compFax"];
+    $set = $_POST["set"];
 
     //calculation section
     $Tamount = $_POST["total_amount"];
@@ -62,7 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($PODate)) {
       $PODate = "None";
   }
-  
+
+  $checkQuery = "SELECT P_No FROM item_Purchase WHERE P_No = '$POno'";
+  $result = $conn->query($checkQuery);
+
+  if ($result->num_rows > 0) {
+    // QNo already exists, handle accordingly (show an error message or take any other action)
+    $conn->close();
+} else {
         // Loop through quotation items and insert into database
         for ($i = 0; $i < count($nom); $i++) {
           $num = $nom[$i];
@@ -75,14 +85,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $totalss = $totals[$i];
      
           // Insert data into the database
-          $sql = "INSERT INTO item_Purchase (P_No, num, descript, DDate, Qty, UPrice, Tgst, Total) VALUES ('$POnos', '$num', '$description', '$PODates', '$quantitys', '$prices', '$gsts', '$totalss')";
+          $sql = "INSERT INTO item_Purchase(P_No, num, descript, DDate, Qty, UPrice, Tgst, Total, W_PO) VALUES ('$POnos', '$num', '$description', '$PODates', '$quantitys', '$prices', '$gsts', '$totalss', '$set')";
          
           if ($conn->query($sql) !== true) {
                echo "Error: " . $sql . "<br>" . $conn->error;
           }
        }
        
+       $sql2 = "INSERT INTO purchase_order (PO_NO, Total_amount, Total_discount, net, others, total_gst, Gross) VALUES ('$POno','$Tamount','$Tdiscount','$Tnet', '$Tothers','$Tgst','$Tgross')";
+    
+       if ($conn->query($sql2) !== true) {
+         echo "Error: " . $sql2 . "<br>" . $conn->error;
+    }
+
        $conn->close();
+}
 
     $html = '
     <!DOCTYPE html>
@@ -100,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </tr>
           <tr>
             <th style="border:none; background-color:white;">P.O. #</th>
-            <th style="padding:3px; background-color:white; text-align:center;">KSL/2023/PO/'. $POno .'</th>
+            <th style="padding:3px; background-color:white; text-align:center;">'. $set .'</th>
           </tr>
         </table>
         </div>   
@@ -129,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       '. $compStreet .'<br>
       '. $compPcode .' '. $compCity .'<br>
       '. $compState .'<br>
-      T:603-8685 5033 F: 603-8685 5032
+      T: '. $compTel .' F: '. $compFax .'
       </p>
   </div>
 

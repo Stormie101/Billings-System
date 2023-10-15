@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 
 $searchTerm = $_POST['searchTerm'];
 
-$sql = "SELECT * FROM client_delivery WHERE DOn = '$searchTerm'"; // Updated to search by 'DOn'
+$sql = "SELECT * FROM client_delivery WHERE compName = '$searchTerm' ORDER BY id DESC";
 
 $result = $conn->query($sql);
 
