@@ -20,7 +20,7 @@ $adminpassword = $_POST['adminPassword'];
 $hashedPassword = md5($adminpassword);
 
 // SQL query to check if the username and hashed password match
-$sql = "SELECT * FROM admin WHERE username='$username' AND adminPassword='$hashedPassword'";
+$sql = "SELECT * FROM admin WHERE username='$username' AND adminPassword='$hashedPassword' AND (adminrole='Admin' OR adminrole='User')";
 
 
 // SQL query to check if the username and password match
@@ -28,14 +28,21 @@ $sql = "SELECT * FROM admin WHERE username='$username' AND adminPassword='$hashe
 $result = $conn->query($sql);
 
 if ($result->num_rows == 1) {
-    // Login successful
-    session_start();
-    $_SESSION['username'] = $username;
-    $_SESSION['adminrole'] = $row['adminrole']; // Set admin role in session
-    header("Location: index-test.php"); // Redirect to the dashboard page after successful login
+    $row = $result->fetch_assoc();
+    if ($row['adminrole'] == 'Admin' || $row['adminrole'] == 'User') {
+        // Login successful
+        session_start();
+        $_SESSION['username'] = $username;
+        $_SESSION['adminrole'] = $row['adminrole']; // Set admin role in session
+        header("Location: index-test.php"); // Redirect to the dashboard page after successful login
+    } else {
+        // Role is not "Admin" or "User"
+        echo "Role are not yet set! contact admin.";
+    }
 } else {
     // Login failed
-    echo "Invalid username or password. Please try again.";
+    
+    header("Location: role-error.html");
 }
 
 $conn->close();

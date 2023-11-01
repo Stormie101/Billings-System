@@ -46,7 +46,7 @@ if(isset($_SESSION['username'])){
     <header>
         <img src="kyrol.png" alt="">
         <p style="font-weight:bold; padding-bottom:5px;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Billing System 0.5</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Billing System 0.6</p>
     </header>
 
     <div class="holder">
