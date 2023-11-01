@@ -1,35 +1,59 @@
 <?php
 session_start();
 
-if(isset($_SESSION['username'])){
-    $username = $_SESSION['username'];
-} else {
-    header("Location: ../login.php"); // Redirect to login page if not logged in
-    exit();
-}
-
 $servername = "localhost";
-$username = "root";
+$usernames = "root";
 $password = "";
 $dbname = "kyrol";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $usernames, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM client_quotation ORDER BY id DESC";
-$result = $conn->query($sql);
 
- $sqls = "SELECT * FROM client_invoice ORDER BY id DESC";
- $results = $conn->query($sqls);
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+        // 2. Retrieve User Role
+        $sql = "SELECT adminrole FROM admin WHERE username = '$username'";
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $role = $row['adminrole'];
+        }
+} else {
+    header("Location: ../login.php"); // Redirect to login page if not logged in
+    exit();
+}
 
- $sqlsz = "SELECT * FROM client_purchaseorder ORDER BY id DESC";
- $resultsz = $conn->query($sqlsz);
+if ($role === "Admin") {
+    $sql = "SELECT * FROM client_quotation ORDER BY id DESC";
+    $result = $conn->query($sql);
 
- $sqlszs = "SELECT * FROM client_delivery ORDER BY id DESC";
- $resultszs = $conn->query($sqlszs);
+    $sqls = "SELECT * FROM client_invoice ORDER BY id DESC";
+    $results = $conn->query($sqls);
+
+    $sqlsz = "SELECT * FROM client_purchaseorder ORDER BY id DESC";
+    $resultsz = $conn->query($sqlsz);
+
+    $sqlszs = "SELECT * FROM client_delivery ORDER BY id DESC";
+    $resultszs = $conn->query($sqlszs);
+} else {
+    // For non-Admin users, retrieve only their own data
+    $sql = "SELECT * FROM client_quotation WHERE username='$username' ORDER BY id DESC";
+    $result = $conn->query($sql);
+
+    $sqls = "SELECT * FROM client_invoice WHERE username='$username' ORDER BY id DESC";
+    $results = $conn->query($sqls);
+
+    $sqlsz = "SELECT * FROM client_purchaseorder WHERE username='$username' ORDER BY id DESC";
+    $resultsz = $conn->query($sqlsz);
+
+    $sqlszs = "SELECT * FROM client_delivery WHERE username='$username' ORDER BY id DESC";
+    $resultszs = $conn->query($sqlszs);
+}
 
 $conn->close();
 ?>
@@ -42,6 +66,7 @@ $conn->close();
     <title>Company / Client</title>
     <link rel="stylesheet" href="history.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
@@ -55,8 +80,8 @@ $conn->close();
     </ul>
     <header>
         <img src="kyrol.png">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">HISTORY</p>
+        <p style="font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">HISTORY</p>
     </header>
 
     <div class="button-container">
@@ -247,6 +272,15 @@ $conn->close();
     </table>
     </div>
 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <footer class="footer">
         <div class="footer-content">

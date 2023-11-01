@@ -79,6 +79,7 @@ if ($conn->connect_error) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quotation Process</title>
     <link rel="stylesheet" href="quotation2.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
@@ -93,8 +94,8 @@ if ($conn->connect_error) {
 
     <header>
         <img src="../kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">QUOTATION</p>
+        <p style=" font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px;  font-weight:bold;">QUOTATION</p>
     </header>
 
     <form action="generatepdf.php" method="post">
@@ -396,7 +397,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <style>
 .Qinput{
-    font-family: verdana;
     font-weight: normal;
     font-size: 22px;
     margin-bottom: 20px;
@@ -410,7 +410,6 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .Qinput h5{
-    font-family: verdana;
     font-weight: normal;
     font-size: 22px;
     margin: 10px 0px 30px 0px;

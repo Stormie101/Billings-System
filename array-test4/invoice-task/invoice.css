@@ -1,6 +1,7 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: 'Poppins';
 }
 
 ul {
@@ -37,7 +38,6 @@ li img {
 
 header{
     background-color: darkcyan;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 header img{
@@ -63,13 +63,11 @@ header p{
     margin-top: 25px;
     margin-left: 50px;
     font-size: 18px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: gray;
     font-weight: bold;
     padding-bottom: 50px;
 }
 .clientdetail h5{
-    font-family: verdana;
     font-weight: normal;
     font-size: 28px;
     margin-bottom: 20px;
@@ -178,7 +176,6 @@ border: 1px solid black;
 }
 
 #innercontent label{
-    font-family: verdana;
     color: gray;
 }
 
@@ -252,10 +249,8 @@ background-color: rgb(211, 209, 209);
 
 .calculate{
     color: gray;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .calculate h5{
-    font-family: verdana;
     font-weight: normal;
     font-size: 22px;
     margin-bottom: 20px;

@@ -47,6 +47,7 @@ $conn->close();
     <title>Company</title>
     <link rel="stylesheet" href="CNC.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
@@ -60,8 +61,8 @@ $conn->close();
     </ul>
     <header>
         <img src="kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Update Company</p>
+        <p style="font-family: 'Poppins'; font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-family: 'Poppins'; font-weight:bold;">Update Company</p>
     </header>
     <!-- Create an edit form with fields pre-filled with $companyData -->
     <form action="update_company.php" method="POST">
@@ -81,6 +82,12 @@ $conn->close();
 
         <label for="compPcode">Post:</label>
         <input type="text" name="compPcode" value="<?php echo $companyData['compPcode']; ?>"><br>
+
+        <label for="compTel">Tel:</label>
+        <input type="text" name="compTel" value="<?php echo $companyData['compTel']; ?>"><br>
+
+        <label for="compFax">Fax:</label>
+        <input type="text" name="compFax" value="<?php echo $companyData['compFax']; ?>"><br>
 
         <input type="submit" value="Update">
     </form>

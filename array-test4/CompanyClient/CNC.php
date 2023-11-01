@@ -61,10 +61,11 @@ $conn->close();
     <title>Company / Client</title>
     <link rel="stylesheet" href="CNC.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
-<ul>
+    <ul style="font-family: 'Poppins';">
         <li><a href="../index-test.php"><img src="../kyrol.png" alt=""></a></li>
         <li><a href="../index-test.php">HOME</a></li>
         <li><a href="../invoice-task/invoice.php">INVOICE</a></li>
@@ -74,11 +75,16 @@ $conn->close();
     </ul>
     <header>
         <img src="kyrol.png">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">COMPANY / CLIENT</p>
+        <p style=" font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">COMPANY / CLIENT</p>
     </header>
+    <div class="secheader" style="font-family: 'Poppins';">
+    <a href="#" onclick="showTable('addAccountTable')">COMPANY</a>
+    <a href="#" onclick="showTable('manageRoleTable')">CLIENT</a>
+   </div> 
+
+   <div id="addAccountTable" class="table-container">
     <h1 style="padding:15px; margin-left:10px;">Company</h1>
-    
     <table>
         <thead>
             <tr>
@@ -88,6 +94,8 @@ $conn->close();
                 <th>City</th>
                 <th>State</th>
                 <th>Postcode</th>
+                <th>Tel</th>
+                <th>Fax</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -104,6 +112,8 @@ $conn->close();
                     echo "<td>" . $row["compCity"] . "</td>";
                     echo "<td>" . $row["compState"] . "</td>";
                     echo "<td>" . $row["compPcode"] . "</td>";
+                    echo "<td>" . $row["compTel"] . "</td>";
+                    echo "<td>" . $row["compFax"] . "</td>";
                     echo "<td><a href='edit_company.php?id=" . $row["id"] . "'><i class='fas fa-edit' style='color:darkcyan;'></i>                    </a></td>";
                     echo "<td><a class='delete-link' href='". $_SERVER['PHP_SELF'] ."?delete_company=". $row['id'] ."'><i class='fas fa-trash' style='color:red;'></i>                    </td>";
                     echo "</tr>";
@@ -115,11 +125,14 @@ $conn->close();
             ?>
         </tbody>
     </table>
+    
 
     <div id="buttonholder">
         <a href="add_company.php">Add Company</a>
     </div>
-
+    </div>
+    
+    <div id="manageRoleTable" class="table-container">
     <h1 style="padding:15px; margin-left:10px;">Client</h1>
 
     <table>
@@ -158,7 +171,19 @@ $conn->close();
     <div id="buttonholder">
         <a href="add_client.php">Add Client</a>
     </div>
-
+    </div>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <footer class="footer">
         <div class="footer-content">
@@ -182,5 +207,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+function showTable(tableId) {
+        var tables = document.querySelectorAll('.table-container');
+        tables.forEach(function(table) {
+            table.style.display = 'none';
+        });
+
+        var selectedTable = document.getElementById(tableId);
+        selectedTable.style.display = 'block';
+
+        return false; // Prevent the default link behavior
+    }
+
+    window.onload = function() {
+        showTable('manageRoleTable'); // Show the "Add Account" table by default
+    };
 </script>
 </html>

@@ -19,13 +19,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $compCity = $_POST['compCity'];
     $compState = $_POST['compState'];
     $compPcode = $_POST['compPcode'];
+    $compTel = $_POST['compTel'];
+    $compFax = $_POST['compFax'];
 
     $sql = "UPDATE companyinfo 
             SET compName = '$compName', 
                 compStreet = '$compStreet', 
                 compCity = '$compCity', 
                 compState = '$compState', 
-                compPcode = '$compPcode' 
+                compPcode = '$compPcode', 
+                compTel = '$compTel',
+                compFax = '$compFax' 
             WHERE id = $companyId";
 
     if ($conn->query($sql) === TRUE) {

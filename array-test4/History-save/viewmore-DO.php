@@ -16,13 +16,14 @@ if(isset($_SESSION['username'])){
     <title>D.O Detail</title>
     <link rel="stylesheet" href="viewmore.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
 <header>
         <img src="kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Delivery Order Detail</p>
+        <p style="font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Delivery Order Detail</p>
     </header>
     <form action="generatepdfDO.php" method="post">
 <?php

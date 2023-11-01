@@ -1,0 +1,206 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins';
+}
+
+
+header{
+    background-color: darkcyan;
+}
+
+header img{
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    padding: 50px;
+    padding-bottom: 5px;
+}
+
+header p{
+    text-align: center;
+    color: white;
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+body {
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+.welcome-text{
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.secheader{
+    background-color: #333;
+    text-align: center;
+    overflow: hidden;
+}
+
+.secheader a{
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    padding: 10px 25px 10px 25px;
+    float: none;
+    display: inline-block;
+    margin: 0 10px; /* Adjust margin as needed */ 
+}
+
+.secheader a:hover{
+    background-color: rgb(255, 157, 10);
+}
+
+.table-container {
+    display: none;
+}
+
+.containeradd{
+    border: 1px solid gray;
+    border-radius: 8px;
+    width: max-content;
+    margin: 70px auto;
+    font-size: 19px;
+    height: fit-content;
+    width: fit-content;
+    padding: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+
+#tablereg tr td{
+    padding: 5px 0px 5px 0px;
+    color: black;
+}
+
+#tablereg{
+    padding-top: 40px;
+    width: 100%;
+}
+
+#tablereg input{
+    width: 100%;
+    height: 30px;
+    border: 1px solid gray;
+    border-radius: 7px;
+    font-size: 20px;
+    padding: 5px;
+}
+
+#tablereg a{
+    text-align: center;
+    text-decoration: none;
+}
+
+#tablereg p{
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgb(25, 206, 70);
+    color: white;
+    font-size: 15px;
+}
+
+.containerrole{
+    margin-left: 50px;
+    margin-top: 25px;
+}
+
+/* Apply some basic styles to the table */
+.styled-table {
+    border-collapse: collapse;
+    width: 98%;
+    margin-bottom: 20px;
+}
+
+/* Style the table header */
+.styled-table th {
+    background-color: #333;
+    color:white;
+    letter-spacing: 1px;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Style the table rows */
+.styled-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.styled-table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Style table cells */
+.styled-table td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Add some spacing between table cells */
+.styled-table td, th {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+#log-out{
+    margin-top: 15px;
+    border: 1px solid red;
+    background-color: red;
+    color: white;
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 8px;
+    text-decoration: none;
+    width: 80px;
+}
+
+#log-out:hover{
+    background-color: rgb(218, 32, 32);
+    border-color: rgb(218, 32, 32);
+    transition: none;
+    transform: none;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 18px;
+}
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#sButton{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 25px;
+}
+
+#sButton:hover{
+    background-color: #45a049;
+}
+

@@ -80,6 +80,7 @@ if ($conn->connect_error) {
     <title>PO Process</title>
     <link rel="stylesheet" href="PurchaseOR2.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 </head>
 <body>
     <ul>
@@ -93,8 +94,8 @@ if ($conn->connect_error) {
 
     <header>
         <img src="../kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Purchase Order</p>
+        <p style="font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Purchase Order</p>
     </header>
 
     <form action="generatepdfOR.php" method="post">

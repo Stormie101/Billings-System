@@ -132,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($resultItem->num_rows > 0) {
                 while ($rowItem = $resultItem->fetch_assoc()) {
+                  
                     $desc = $rowItem["descript"];
                     $quantity = $rowItem["quantity"];
                     $price = $rowItem["Unit_Price"];

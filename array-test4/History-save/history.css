@@ -1,6 +1,7 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: 'Poppins';
 }
 
 ul {
@@ -37,7 +38,6 @@ li img {
 
 header{
     background-color: darkcyan;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 header img{
@@ -83,7 +83,6 @@ table {
     width: 95%;
     margin: 0 auto; /* Center the table horizontally */
     margin-bottom: 20px;
-    font-family: 'Roboto', sans-serif;
 }
 
 /* Style the table header */
@@ -131,7 +130,6 @@ td, th {
 
 .button-container button {
     --color: #333;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: inline-block;
     width: 6em;
     height: 2.6em;

@@ -80,6 +80,7 @@ if ($conn->connect_error) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DO Process</title>
     <link rel="stylesheet" href="DeliveryOr2.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>

@@ -44,6 +44,7 @@ $conn->close();
     <title>PO Process</title>
     <link rel="stylesheet" href="PurchaseOR.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -82,8 +83,8 @@ $conn->close();
     </ul>
     <header>
         <img src="../kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">PURCHASE ORDER</p>
+        <p style="font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">PURCHASE ORDER</p>
     </header>
     <div class="content">
     <div id="innercontent">

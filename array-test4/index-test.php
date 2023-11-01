@@ -1,13 +1,35 @@
 <?php
 session_start();
 
+// 1. Connect to the Database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "kyrol";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 if(isset($_SESSION['username'])){
     $username = $_SESSION['username'];
+    $role = $_SESSION['adminrole'];
+
+    // 2. Retrieve User Role
+    $sql = "SELECT adminrole FROM admin WHERE username = '$username'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $role = $row['adminrole'];
+    }
 } else {
-    header("Location: login.php"); // Redirect to login page if not logged in
+    header("Location: login.php");
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -17,17 +39,18 @@ if(isset($_SESSION['username'])){
     <title>Billing System</title>
     <link rel="stylesheet" href="index-test.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
     <header>
         <img src="kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Billing System 0.5</p>
+        <p style="font-weight:bold; padding-bottom:5px;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Billing System 0.5</p>
     </header>
 
     <div class="holder">
-    <div class="welcome-text"><p>Welcome <?php echo $username; ?></p><a href="logout.php" id="log-out">Log-out</a></div><hr style="margin-bottom:8px;"><!-- Added Welcome text with horizontal rule -->
+    <div class="welcome-text"><p style="text-decoration:uppercase;">Welcome <?php echo $username; ?></p><a href="logout.php" id="log-out">Log-out</a></div><hr style="margin-bottom:8px;"><!-- Added Welcome text with horizontal rule -->
     <div class="row">
         <a href="CompanyClient/CNC.php" class="dashboard-button" style="text-decoration: none;">COMPANY / CLIENT</a>
     </div>
@@ -42,6 +65,11 @@ if(isset($_SESSION['username'])){
     <div class="row">
         <a href="history-save/history.php" class="dashboard-button" style="text-decoration: none;">HISTORY</a>
     </div>
+    <div class="row">
+    <?php if($role == 'Admin'): ?>
+        <a href="manageAdmin/manages.php" class="dashboard-button" style="text-decoration: none;">MANAGE</a>
+    <?php endif; ?>
+    </div>
 </div>
     <br>
     <br>
@@ -54,3 +82,6 @@ if(isset($_SESSION['username'])){
     </footer>
 </body>
 </html>
+<?php
+$conn->close();
+?>

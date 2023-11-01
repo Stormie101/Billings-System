@@ -47,10 +47,11 @@ $conn->close();
     <title>Client</title>
     <link rel="stylesheet" href="CNC.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
-<ul>
+    <ul style="font-family: 'Poppins';">
         <li><a href="../index-test.php"><img src="../kyrol.png" alt=""></a></li>
         <li><a href="../index-test.php">HOME</a></li>
         <li><a href="../invoice-task/invoice.php">INVOICE</a></li>
@@ -60,8 +61,8 @@ $conn->close();
     </ul>
     <header>
         <img src="kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Update Client</p>
+        <p style="font-weight:bold; font-family: 'Poppins';">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold; font-family: 'Poppins';">Update Client</p>
     </header>
     <!-- Create an edit form with fields pre-filled with $companyData -->
     <form action="update_client.php" method="POST">

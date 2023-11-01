@@ -1,6 +1,7 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: 'Poppins';
 }
 
 ul {
@@ -37,7 +38,6 @@ li img {
 
 header{
     background-color: darkcyan;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 header img{
@@ -83,12 +83,13 @@ table {
     width: 95%;
     margin: 0 auto; /* Center the table horizontally */
     margin-bottom: 20px;
-    font-family: 'Roboto', sans-serif;
 }
 
 /* Style the table header */
 th {
-    background-color: #f2f2f2;
+    background-color: #333;
+    color:white;
+    letter-spacing: 1px;
     text-align: left;
     padding: 10px;
     border: 1px solid #ddd;
@@ -171,4 +172,24 @@ form input[type="submit"] {
 
 form input[type="submit"]:hover {
     background-color: #45a049;
+}
+
+.secheader{
+    background-color: #333;
+    text-align: center;
+    overflow: hidden;
+}
+
+.secheader a{
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    padding: 10px 25px 10px 25px;
+    float: none;
+    display: inline-block;
+    margin: 0 10px; /* Adjust margin as needed */ 
+}
+
+.secheader a:hover{
+    background-color: rgb(255, 157, 10);
 }

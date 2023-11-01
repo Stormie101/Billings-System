@@ -25,9 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $compCity = $_POST['compCity'];
     $compState = $_POST['compState'];
     $compPcode = $_POST['compPcode'];
+    $compTel = $_POST['compTel'];
+    $compFax = $_POST['compFax'];
 
-    $sqlInsert = "INSERT INTO companyinfo (compName, compStreet, compCity, compState, compPcode) 
-                  VALUES ('$compName', '$compStreet', '$compCity', '$compState', '$compPcode')";
+    $sqlInsert = "INSERT INTO companyinfo (compName, compStreet, compCity, compState, compPcode, compTel, compFax) 
+                  VALUES ('$compName', '$compStreet', '$compCity', '$compState', '$compPcode','$compTel','$compFax')";
 
     if ($conn->query($sqlInsert) === TRUE) {
         header("Location: CNC.php"); // Redirect back to the main page
@@ -48,6 +50,7 @@ $conn->close();
     <title>Company</title>
     <link rel="stylesheet" href="CNC.css">
     <link rel="icon" href="kyrol.png" sizes="40x40">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
@@ -61,8 +64,8 @@ $conn->close();
     </ul>
     <header>
         <img src="kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Add Company</p>
+        <p style="font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Add Company</p>
     </header>
     <form method="post">
         <label for="compName">Company Name:</label>
@@ -79,6 +82,12 @@ $conn->close();
 
         <label for="compState">Postcode:</label>
         <input type="text" id="compPcode" name="compPcode" required><br><br>
+
+        <label for=" compTel">Tel:</label>
+        <input type="text" id=" compTel" name=" compTel" required><br><br>
+
+        <label for="compFax">Fax:</label>
+        <input type="text" id="compFax" name="compFax" required><br><br>
 
         <input type="submit" value="Add Company">
     </form>

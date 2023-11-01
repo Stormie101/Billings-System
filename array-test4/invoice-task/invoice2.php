@@ -80,6 +80,7 @@ if ($conn->connect_error) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Process</title>
     <link rel="stylesheet" href="invoice2.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link rel="icon" href="kyrol.png" sizes="40x40">
 </head>
 <body>
@@ -94,8 +95,8 @@ if ($conn->connect_error) {
 
     <header>
         <img src="../kyrol.png" alt="">
-        <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">INVOICE</p>
+        <p style="font-weight:bold;">KYROL SECURITY LABS</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">INVOICE</p>
     </header>
 
     <form action="generatepdfInvoice.php" method="post">

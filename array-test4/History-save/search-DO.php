@@ -1,19 +1,40 @@
 <?php
 $servername = "localhost";
-$username = "root";
+$usernames = "root";
 $password = "";
 $dbname = "kyrol";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $usernames, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+session_start();
+if(isset($_SESSION['username'])){
+    $username = $_SESSION['username'];
+        // 2. Retrieve User Role
+        $sql = "SELECT adminrole FROM admin WHERE username = '$username'";
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $role = $row['adminrole'];
+        }
+} else {
+    header("Location: ../login.php"); // Redirect to login page if not logged in
+    exit();
+}
+
 $searchTerm = $_POST['searchTerm'];
 
-$sql = "SELECT * FROM client_delivery WHERE compName = '$searchTerm' ORDER BY id DESC";
-
+if($role == 'Admin') {
+    // If the user is an admin, search everything
+    $sql = "SELECT * FROM client_delivery WHERE compName LIKE '%$searchTerm%' ORDER BY id DESC";
+} else {
+    // If the user is not an admin, only search their own records
+    $sql = "SELECT * FROM client_delivery WHERE compName LIKE '%$searchTerm%' AND username='$username' ORDER BY id DESC";
+}
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

@@ -1,6 +1,7 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: 'Poppins';
 }
 
 ul {
@@ -61,13 +62,11 @@ header p{
 .clientdetail{
     margin-top: 25px;
     font-size: 18px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: gray;
     font-weight: bold;
     padding-bottom: 50px;
 }
 .clientdetail h5{
-    font-family: verdana;
     font-weight: normal;
     font-size: 28px;
     margin-bottom: 20px;
@@ -126,7 +125,6 @@ border: 1px solid black;
 } */
 
 #innercontent label{
-    font-family: verdana;
     color: gray;
 }
 
@@ -198,10 +196,8 @@ background-color: rgb(211, 209, 209);
 
 .calculate{
     color: gray;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .calculate h5{
-    font-family: verdana;
     font-weight: normal;
     font-size: 22px;
     margin-bottom: 20px;
@@ -297,7 +293,6 @@ font-weight: bold;
 
 .input-table input[type="checkbox"]::before {
     content: '\e5ca'; /* Material Design check icon */
-    font-family: 'Material Icons';
     font-size: 18px;
     color: #2196F3;
     position: absolute;

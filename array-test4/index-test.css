@@ -1,12 +1,13 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: 'Poppins';
 }
 
 
 header{
     background-color: darkcyan;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 2px;
 }
 
 header img{
