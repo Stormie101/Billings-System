@@ -7,16 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['PO_Number'])){
         $PO_Number = $_POST['PO_Number'];
 
-        $dbHost = "localhost";
-        $dbUser = "root";
-        $dbPass = "";
-        $dbName = "kyrol";
-
-        $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-
-        if ($conn->connect_error) {
-            die("Database connection failed: " . $conn->connect_error);
-        }
+        //mention database
+        include 'db.php';
         
         // Use prepared statement to prevent SQL injection
         $sqlClient = $conn->prepare("SELECT PO_Number, Dates, compName, compStreet, compCity, compPcode, compState, compTel, compFax, Requist, ShipVia, FOB, ShipTerm, ShipDate, username, W_PO FROM client_purchaseorder WHERE PO_Number = ?");

@@ -5,18 +5,8 @@ use Dompdf\Dompdf;
 $dompdf = new Dompdf();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Database connection parameters
-        $dbHost = "localhost";
-        $dbUser = "root";
-        $dbPass = "";
-        $dbName = "kyrol";
-    
-        // Establish a database connection
-        $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-    
-        if ($conn->connect_error) {
-            die("Database connection failed: " . $conn->connect_error);
-        }
+//mention database
+include 'db.php';
     
 
 

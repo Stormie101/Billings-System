@@ -7,16 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['DOn'])){
         $DOn = $_POST['DOn'];
 
-        $dbHost = "localhost";
-        $dbUser = "root";
-        $dbPass = "";
-        $dbName = "kyrol";
-
-        $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-
-        if ($conn->connect_error) {
-            die("Database connection failed: " . $conn->connect_error);
-        }
+        //mention database
+        include 'db.php';
         
         // Use prepared statement to prevent SQL injection
         $sqlClient = $conn->prepare("SELECT att, tel, email, ref, DOn, Dates, Terms, SaleP, INo, Pages, compName, compStreet, compCity, compState, compPcode, username, W_DOn FROM client_delivery WHERE DOn = ?");

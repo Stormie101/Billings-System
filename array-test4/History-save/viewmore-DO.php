@@ -27,16 +27,8 @@ if(isset($_SESSION['username'])){
     </header>
     <form action="generatepdfDO.php" method="post">
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kyrol";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+//mention database
+include 'db.php';
 
 if(isset($_GET['id'])){
     $id = $_GET['id'];

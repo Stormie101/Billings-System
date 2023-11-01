@@ -1,16 +1,8 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kyrol";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+//mention database
+include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newUsername = $_POST['username'];

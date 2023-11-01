@@ -3,16 +3,9 @@ session_start();
 
 // Check if the user is logged in; you can reuse your existing authentication logic here
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kyrol";
+//mention database
+include 'db.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT id, username, adminrole FROM admin";
 $result = $conn->query($sql);

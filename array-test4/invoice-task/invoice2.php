@@ -11,17 +11,8 @@ if(isset($_SESSION['username'])){
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-// Establish a database connection (replace with your actual database credentials)
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "kyrol";
-
-$conn = new mysqli($host, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+//mention database
+include 'db.php';
 
 
     //number of quotation

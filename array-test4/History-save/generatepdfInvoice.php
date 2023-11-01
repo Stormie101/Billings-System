@@ -7,16 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['INo'])){
         $INo = $_POST['INo'];
 
-        $dbHost = "localhost";
-        $dbUser = "root";
-        $dbPass = "";
-        $dbName = "kyrol";
-
-        $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-
-        if ($conn->connect_error) {
-            die("Database connection failed: " . $conn->connect_error);
-        }
+        //mention database
+        include 'db.php';
         
         // Use prepared statement to prevent SQL injection
         $sqlClient = $conn->prepare("SELECT att, tel, email, ref, INo, Dates, Terms, SaleP, PO_no, LO_date, Pages, compName, compStreet, compCity, compState, compPcode, username, W_INO FROM client_invoice WHERE INo = ?");

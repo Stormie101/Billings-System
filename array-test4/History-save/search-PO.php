@@ -1,14 +1,6 @@
 <?php
-$servername = "localhost";
-$usernames = "root";
-$password = "";
-$dbname = "kyrol";
-
-$conn = new mysqli($servername, $usernames, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+//mention database
+include 'db.php';
 
 session_start();
 if(isset($_SESSION['username'])){
