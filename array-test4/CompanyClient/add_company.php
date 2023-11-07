@@ -20,6 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $compTel = $_POST['compTel'];
     $compFax = $_POST['compFax'];
 
+    // Check if clientname already exists
+    $checkExistQuery = "SELECT * FROM companyinfo WHERE compName='$compName'";
+    $result = $conn->query($checkExistQuery);
+
+    if ($result->num_rows > 0) {
+        echo "<p style='background-color:red; color:white; text-align:center; padding:0px; margin:0px; font-size:20px;'>Company with the same name already exists. Please choose a different name.</p>";
+    } else {
     $sqlInsert = "INSERT INTO companyinfo (compName, compStreet, compCity, compState, compPcode, compTel, compFax) 
                   VALUES ('$compName', '$compStreet', '$compCity', '$compState', '$compPcode','$compTel','$compFax')";
 
@@ -28,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     } else {
         echo "Error: " . $sqlInsert . "<br>" . $conn->error;
+    }
     }
 }
 

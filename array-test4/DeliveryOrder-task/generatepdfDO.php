@@ -51,6 +51,15 @@ include 'db.php';
     $Tgst = $_POST["Tgst"];
     $Tgross = $_POST["gross_amount"];
     
+    //remove slashes
+    $newatt = stripslashes($att);
+    $newemail = stripslashes($email);
+
+    $newcompName = stripslashes($compName);
+    $newcompStreet = stripslashes($compStreet);
+    $newcompCity = stripslashes($compCity);
+    $newcompState = stripslashes($compState);
+
     $year = date("Y", strtotime($Date));
     
     $checkQuery = "SELECT DO_No FROM item_delivery WHERE DO_No = '$DOn'";
@@ -64,22 +73,21 @@ include 'db.php';
      for ($i = 0; $i < count($nom); $i++) {
       $num = $nom[$i];
       $DOns = $DOn;
-      $description = $desc[$i];
+      $description = htmlspecialchars($desc[$i], ENT_QUOTES);
       $quantitys = $quantity[$i];
       $prices = $price[$i];
       $gsts = $gst[$i];
       $totalss = $totals[$i];
-      $references = $reference;
 
       // Insert data into the database
-      $sql = "INSERT INTO item_delivery(DO_No, num, descript, REF, quantity, Unit_Price, gstPer, TotalPer, W_do) VALUES ('$DOn','$num','$description','$references','$quantitys','$prices','$gsts','$totalss', '$set')";
+      $sql = "INSERT INTO item_delivery(DO_No, num, descript, quantity, Unit_Price, gstPer, TotalPer, W_do) VALUES ('$DOn','$num','$description','$quantitys','$prices','$gsts','$totalss', '$set')";
     
       if ($conn->query($sql) !== true) {
            echo "Error: " . $sql . "<br>" . $conn->error;
       }
    }
 
-    $sql2 = "INSERT INTO delivery_order (DO_No, Total_Amount, Total_discount, Net, total_gst, Gross, REF, W_do) VALUES ('$DOn','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross', '$reference', '$set')";
+    $sql2 = "INSERT INTO delivery_order (DO_No, Total_Amount, Total_discount, Net, total_gst, Gross, W_do) VALUES ('$DOn','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross', '$set')";
   
     if ($conn->query($sql2) !== true) {
       echo "Error: " . $sql2 . "<br>" . $conn->error;

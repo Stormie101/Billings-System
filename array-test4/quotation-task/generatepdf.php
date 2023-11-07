@@ -43,7 +43,19 @@ include 'db.php';
     $Tgst = $_POST["Tgst"];
     $Tgross = $_POST["gross_amount"];
     
+    //remove slashes
+
+    $newatt = stripslashes($att);
+    $newemail = stripslashes($email);
+    $newreference = stripslashes($reference);
+
+    $newSaleP = stripslashes($SaleP);
+    $newcompName = stripslashes($compName);
+    $newcompStreet = stripslashes($compStreet);
+    $newcompCity = stripslashes($compCity);
+    $newcompState = stripslashes($compState);
     $year = date("Y", strtotime($Date));
+
     
     $checkQuery = "SELECT Quotation_No FROM item_quotation WHERE Quotation_No = '$QNo'";
     $result = $conn->query($checkQuery);
@@ -56,7 +68,7 @@ include 'db.php';
     for ($i = 0; $i < count($nom); $i++) {
       $num = $nom[$i];
       $QNos = $QNo;
-      $description = $desc[$i];
+      $description = htmlspecialchars($desc[$i], ENT_QUOTES);
       $quantitys = $quantity[$i];
       $prices = $price[$i];
       $gsts = $gst[$i];
@@ -119,17 +131,17 @@ include 'db.php';
 </div>
 
 <div class="address">
-    <p class="compname" style="text-transform: uppercase;">'. $compName .'</p>
-    <p class="street">'. $compStreet .'</p>
-    <p class="city-state-zip">'. $compPcode .' '. $compCity .'</p>
-    <p class="country">'. $compState .'</p>
+    <p class="compname" style="text-transform: uppercase;">'. $newcompName .'</p>
+    <p class="street">'. $newcompStreet .'</p>
+    <p class="city-state-zip">'. $compPcode .' '. $newcompCity .'</p>
+    <p class="country">'. $newcompState .'</p>
 </div>
 
 <br>
 <table style="border-color:white; width:200px;">
   <tr>
     <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">ATT</td>
-    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase;">:  '. $att .'</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase;">:  '. $newatt .'</td>
   </tr>
   <tr>
     <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">TEL</td>
@@ -137,11 +149,11 @@ include 'db.php';
   </tr>
   <tr>
     <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;">EMAIL</td>
-    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black;"> :  '. $email .'</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black;"> :  '. $newemail .'</td>
   </tr>
   <tr>
     <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; font-weight:bold; color:black;"></td>
-    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase; font-weight:bold; width:250px;">REF:  '. $reference .'</td>
+    <td style="text-align:left; border: 1px solid white; line-height:20px; font-size:12px; color:black; text-transform: uppercase; font-weight:bold; width:250px;">REF:  '. $newreference .'</td>
   </tr>
 </table>
 

@@ -22,21 +22,33 @@ include 'db.php';
 
     //Shipping information
     // $Req = $_POST["Req"];
-    $Req = isset($_POST["Req"]) && !empty($_POST["Req"]) ? $_POST["Req"] : "None";
-    $ShipV = isset($_POST["ShipV"]) && !empty($_POST["ShipV"]) ? $_POST["ShipV"] : "None";
-    $Fob = isset($_POST["Fob"]) && !empty($_POST["Fob"]) ? $_POST["Fob"] : "None";
-    $Sterm = isset($_POST["Sterm"]) && !empty($_POST["Sterm"]) ? $_POST["Sterm"] : "None";
-    $Sdate = isset($_POST["Sdate"]) && !empty($_POST["Sdate"]) ? $_POST["Sdate"] : "None";
+    $Req = mysqli_real_escape_string($conn,isset($_POST["Req"]) && !empty($_POST["Req"]) ? $_POST["Req"] : "None");
+    $ShipV = mysqli_real_escape_string($conn,isset($_POST["ShipV"]) && !empty($_POST["ShipV"]) ? $_POST["ShipV"] : "None");
+    $Fob = mysqli_real_escape_string($conn,isset($_POST["Fob"]) && !empty($_POST["Fob"]) ? $_POST["Fob"] : "None");
+    $Sterm = mysqli_real_escape_string($conn,isset($_POST["Sterm"]) && !empty($_POST["Sterm"]) ? $_POST["Sterm"] : "None");
+    $Sdate = mysqli_real_escape_string($conn,isset($_POST["Sdate"]) && !empty($_POST["Sdate"]) ? $_POST["Sdate"] : "None");
 
 
     //Vendor Address
-    $compName = $_POST["compName"];
-    $compStreet = $_POST["compStreet"];
-    $compCity = $_POST["compCity"];
+    $compName = mysqli_real_escape_string($conn,$_POST["compName"]);
+    $compStreet = mysqli_real_escape_string($conn,$_POST["compStreet"]);
+    $compCity = mysqli_real_escape_string($conn,$_POST["compCity"]);
     $compPcode = $_POST["compPcode"];
-    $compState = $_POST["compState"];
+    $compState = mysqli_real_escape_string($conn,$_POST["compState"]);
     $compTel = $_POST["compTel"];
     $compFax = $_POST["compFax"];
+
+    //remove slashes
+
+    $newReq = stripslashes($Req);
+    $newShipV = stripslashes($ShipV);
+    $newFob = stripslashes($Fob);
+    $newSterm = stripslashes($Sterm);
+    $newSdate = stripslashes($Sdate);
+    $newcompName = stripslashes($compName);
+    $newcompStreet = stripslashes($compStreet);
+    $newcompCity = stripslashes($compCity);
+    $newcompState = stripslashes($compState);
 
     $years = date("Y", strtotime($Dates));
     $sets = "KSL/$years/PO/$POno";
@@ -88,23 +100,23 @@ include 'db.php';
         <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Purchase Order</p>
     </header>
 
-    <form action="generatepdfOR.php" method="post">
+    <form action="generatepdfOR.php" method="post" id="quotation-form">
 
         <!-- Hidden input fields to hold other data -->
     <input type="hidden" name="POno" value="<?php echo $POno ?>">
     <input type="hidden" name="dates" value="<?php echo $Dates ?>">
 
-    <input type="hidden" name="req" value="<?php echo $Req ?>">
-    <input type="hidden" name="shipv" value="<?php echo $ShipV ?>">
-    <input type="hidden" name="fob" value="<?php echo $Fob ?>">
-    <input type="hidden" name="sterm" value="<?php echo $Sterm ?>">
-    <input type="hidden" name="sdate" value="<?php echo $Sdate ?>">
+    <input type="hidden" name="req" value="<?php echo $newReq ?>">
+    <input type="hidden" name="shipv" value="<?php echo $newShipV ?>">
+    <input type="hidden" name="fob" value="<?php echo $newFob ?>">
+    <input type="hidden" name="sterm" value="<?php echo $newSterm ?>">
+    <input type="hidden" name="sdate" value="<?php echo $newSdate ?>">
 
-    <input type="hidden" name="compName" value="<?php echo $compName ?>">
-    <input type="hidden" name="compStreet" value="<?php echo $compStreet ?>">
-    <input type="hidden" name="compCity" value="<?php echo $compCity ?>">
+    <input type="hidden" name="compName" value="<?php echo $newcompName ?>">
+    <input type="hidden" name="compStreet" value="<?php echo $newcompStreet ?>">
+    <input type="hidden" name="compCity" value="<?php echo $newcompCity ?>">
     <input type="hidden" name="compPcode" value="<?php echo $compPcode ?>">
-    <input type="hidden" name="compState" value="<?php echo $compState ?>">
+    <input type="hidden" name="compState" value="<?php echo $newcompState ?>">
     <input type="hidden" name="compTel" value="<?php echo $compTel ?>">
     <input type="hidden" name="compFax" value="<?php echo $compFax ?>">
     <input type="hidden" name="set" value="KSL/<?php echo $years ?>/PO/<?php echo $POno ?>">
@@ -130,15 +142,15 @@ include 'db.php';
                 <table>
                     <tr>
                         <td><p>Company:</p></td>
-                        <td><p><?php echo $compName ?></p></td>
+                        <td><p><?php echo $newcompName ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Street:</p></td>
-                        <td><p><?php echo $compStreet ?></p></td>
+                        <td><p><?php echo $newcompStreet ?></p></td>
                     </tr>
                     <tr>
                         <td><p>City:</p></td>
-                        <td><p><?php echo $compCity ?></p></td>
+                        <td><p><?php echo $newcompCity ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Postcode:</p></td>
@@ -146,7 +158,7 @@ include 'db.php';
                     </tr>
                     <tr>
                         <td><p>State:</p></td>
-                        <td><p><?php echo $compState ?></p></td>
+                        <td><p><?php echo $newcompState ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Telephone:</p></td>
@@ -163,23 +175,23 @@ include 'db.php';
                 <table>
                     <tr>
                         <td><p>Requistioner:</p></td>
-                        <td><p><?php echo $Req ?></p></td>
+                        <td><p><?php echo $newReq ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Ship VIA:</p></td>
-                        <td><p><?php echo $ShipV ?></p></td>
+                        <td><p><?php echo $newShipV ?></p></td>
                     </tr>
                     <tr>
                         <td><p>F.O.B:</p></td>
-                        <td><p><?php echo $Fob ?></p></td>
+                        <td><p><?php echo $newFob ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Shipping Terms:</p></td>
-                        <td><p><?php echo $Sterm ?></p></td>
+                        <td><p><?php echo $newSterm ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Shipping Date:</p></td>
-                        <td><p><?php echo $Sdate ?></p></td>
+                        <td><p><?php echo $newSdate ?></p></td>
                     </tr>
                 </table>
             </div>
@@ -252,7 +264,7 @@ include 'db.php';
         <p>Total Gross:</p>
         <input type="text" id="total_gross" name="gross_amount" value='0.00' readonly>
         <br>
-        <button type="submit" id="print-button">Print</button>
+        <button type="button" id="print-button" onclick="openPdfInNewTab()">Print</button>
 
         <!-- hidden input to transfer data into generate.pdf -->
         <input type="hidden" name="total_amount_calculated" id="total_amount_calculated">
@@ -274,9 +286,16 @@ include 'db.php';
     </footer>
 </body>
 <script>
-document.getElementById("print-button").addEventListener("click", function() {
-    alert("Are you all set to continue?");
-});
+function openPdfInNewTab() {
+    // Submit the form with target set to _blank
+    document.getElementById('quotation-form').target = '_blank';
+    document.getElementById('quotation-form').submit();
+
+    // Redirect to index page after 5 seconds
+    setTimeout(function() {
+        window.location.href = '../successr.html'; // Change the URL as needed
+    }, 1000); // 1000 milliseconds (1 seconds)
+}
 function formatInputs(input) {
     let value = input.value.replace(/[^\d.]/g, '');  // Allow digits and decimal point only
     let parts = value.split('.');

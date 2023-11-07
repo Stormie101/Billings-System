@@ -17,7 +17,7 @@ if(isset($_SESSION['username'])){
     $row = $resultRole->fetch_assoc();
     $userRole = $row['adminrole'];
     
-    if($userRole !== 'Admin'){
+    if($userRole !== 'Admin' && $userRole !== 'SuperAdmin'){
         header("Location: access_denied.php"); // Redirect to login page if not an Admin
         exit();
     }
@@ -62,15 +62,15 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 <body>
+    <div class="secheader">
+    <a href="../index-test.php">HOME</a>
+    <a href="manages.php">MANAGE</a>
+   </div> 
     <header>
         <img src="kyrol.png" alt="">
         <p style="font-family:consolas; font-weight:bold;">KYROL SECURITY LABS</p>
         <p style="font-size: 20px; padding-bottom: 15px; font-family:consolas; font-weight:bold;">Edit Role</p>
     </header>
-    <div class="secheader">
-    <a href="../index-test.php">HOME</a>
-    <a href="manages.php">MANAGE</a>
-   </div> 
     <!-- Create an edit form with fields pre-filled with $companyData -->
     <form action="update_user.php" method="POST">
         <input type="hidden" name="clientId" value="<?php echo $clientId; ?>">
@@ -80,12 +80,13 @@ $conn->close();
 
         <label for="compStreet">Role:</label>
         <select id="adminrole" name="adminrole" required>
+                            <option value="Unauthorized">Unauthorized</option>
                             <option value="User">User</option>
                             <option value="Admin">Admin</option>
         </select>
         <!-- <input type="text" name="adminrole" value="<?php echo $clientData['adminrole']; ?>"><br> -->
 
-        <input type="submit" value="Update" id="update-button">
+        <input type="submit" value="Update" id="update-button" onclick='return confirmEdit()'>
         
     </form>
     <br>
@@ -101,6 +102,11 @@ $conn->close();
         </div>
     </footer>
 </body>
+<script>
+    function confirmEdit() {
+    return confirm("Are you sure you wanted to make changes?");
+}
+</script>
 </html>
 
 <style>

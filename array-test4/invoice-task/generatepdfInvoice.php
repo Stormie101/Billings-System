@@ -51,6 +51,18 @@ include 'db.php';
     $Tgst = $_POST["Tgst"];
     $Tgross = $_POST["gross_amount"];
     
+    //remove slashes
+
+    $newatt = stripslashes($att);
+    $newemail = stripslashes($email);
+
+    $newSaleP = stripslashes($SaleP);
+    $newPnos = stripslashes($Pno);
+    $newcompName = stripslashes($compName);
+    $newcompStreet = stripslashes($compStreet);
+    $newcompCity = stripslashes($compCity);
+    $newcompState = stripslashes($compState);
+
     $year = date("Y", strtotime($Date));
 
     $checkQuery = "SELECT Invoice_No FROM item_invoice WHERE Invoice_No = '$INo'";
@@ -63,23 +75,22 @@ include 'db.php';
       // Loop through quotation items and insert into database
       for ($i = 0; $i < count($nom); $i++) {
         $num = $nom[$i];
-        $INos = $INo;
-        $description = $desc[$i];
+        // $INos = $INo;
+        $description = htmlspecialchars($desc[$i], ENT_QUOTES);
         $quantitys = $quantity[$i];
         $prices = $price[$i];
         $gsts = $gst[$i];
         $totalss = $totals[$i];
-        $references = $reference;
    
         // Insert data into the database
-        $sql = "INSERT INTO item_invoice (Invoice_No, num, descript, REF, quantity, Unit_Price, gstPer, TotalPer, W_INo) VALUES ('$INos', '$num', '$description', '$reference', '$quantitys', '$prices', '$gsts', '$totalss', '$set')";
+        $sql = "INSERT INTO item_invoice (Invoice_No, num, descript, quantity, Unit_Price, gstPer, TotalPer, W_INo) VALUES ('$INo', '$num', '$description', '$quantitys', '$prices', '$gsts', '$totalss', '$set')";
        
         if ($conn->query($sql) !== true) {
              echo "Error: " . $sql . "<br>" . $conn->error;
         }
      }
  
-      $sql2 = "INSERT INTO invoice (Inv_no, Total_Amount, Total_discount, Net, total_gst, Gross, REF) VALUES ('$INo','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross', '$reference')";
+      $sql2 = "INSERT INTO invoice (Inv_no, Total_Amount, Total_discount, Net, total_gst, Gross) VALUES ('$INo','$Tamount','$Tdiscount','$Tnet','$Tgst','$Tgross')";
      
       if ($conn->query($sql2) !== true) {
         echo "Error: " . $sql2 . "<br>" . $conn->error;

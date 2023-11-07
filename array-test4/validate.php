@@ -20,7 +20,7 @@ $adminpassword = $_POST['adminPassword'];
 $hashedPassword = md5($adminpassword);
 
 // SQL query to check if the username and hashed password match
-$sql = "SELECT * FROM admin WHERE username='$username' AND adminPassword='$hashedPassword' AND (adminrole='Admin' OR adminrole='User')";
+$sql = "SELECT * FROM admin WHERE username='$username' AND adminPassword='$hashedPassword' AND (adminrole='Admin' OR adminrole='User' OR adminrole='SuperAdmin')";
 
 
 // SQL query to check if the username and password match
@@ -29,7 +29,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
-    if ($row['adminrole'] == 'Admin' || $row['adminrole'] == 'User') {
+    if ($row['adminrole'] == 'Admin' || $row['adminrole'] == 'User' || $row['adminrole'] == 'SuperAdmin') {
         // Login successful
         session_start();
         $_SESSION['username'] = $username;

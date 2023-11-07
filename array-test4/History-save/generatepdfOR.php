@@ -61,7 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <body>
             <br>
             <p style="font-size: 15px; text-align: left; font-weight: bold;">KYROL Security Labs Sdn Bhd</p>
-            <img src="kyrol.png" style="width:190px;">
+            <img src="kyrol.png" alt="Image" style="height: 55px; width:180px"><br>
+
             <br>
             <br>
             <br>

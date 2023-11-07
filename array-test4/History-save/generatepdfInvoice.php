@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   
   <div class="container">
-  <img src="kyrol.png" alt="Image" style="width:150px; height:40px;">
+  <img src="kyrol.png" alt="Image" style="height: 55px; width:180px"><br>
   <p style="font-size: 13px; line-height:2px; margin-top:40px; font-size:11px; color:black;">KYROL SECURITY LABS SDN BHD</p>
   <p style="font-size: 13px; line-height:15px; font-size:11px; color:black;">C-09-01 I-Tech Tower Jalan Impact, Cyber 6</p>
   <p style="font-size: 13px; line-height:15px; font-size:11px; color:black;"> 63000 Cyberjaya, Selangor Darul Ehsan, Malaysia</p>

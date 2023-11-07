@@ -46,7 +46,7 @@ if(isset($_SESSION['username'])){
     <header>
         <img src="kyrol.png" alt="">
         <p style="font-weight:bold; padding-bottom:5px;">KYROL SECURITY LABS</p>
-        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Billing System 0.6</p>
+        <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">Billing System 0.7</p>
     </header>
 
     <div class="holder">
@@ -66,7 +66,7 @@ if(isset($_SESSION['username'])){
         <a href="history-save/history.php" class="dashboard-button" style="text-decoration: none;">HISTORY</a>
     </div>
     <div class="row">
-    <?php if($role == 'Admin'): ?>
+    <?php if($role == 'Admin' || $role == 'SuperAdmin'): ?>
         <a href="manageAdmin/manages.php" class="dashboard-button" style="text-decoration: none;">MANAGE</a>
     <?php endif; ?>
     </div>

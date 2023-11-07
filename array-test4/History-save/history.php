@@ -20,7 +20,7 @@ if(isset($_SESSION['username'])){
     exit();
 }
 
-if ($role === "Admin") {
+if ($role === "Admin" || $role === "SuperAdmin") {
     $sql = "SELECT * FROM client_quotation ORDER BY id DESC";
     $result = $conn->query($sql);
 

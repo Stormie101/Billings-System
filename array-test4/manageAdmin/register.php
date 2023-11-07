@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $hashedPassword = md5($newPassword);
 
-        $sql = "INSERT INTO admin(username, adminPassword) VALUES ('$newUsername', '$hashedPassword')";
+        $sql = "INSERT INTO admin(username, adminPassword, adminrole) VALUES ('$newUsername', '$hashedPassword', 'Unauthorized')";
 
         if ($conn->query($sql) === TRUE) {
             header("Location: manages.php"); // Redirect to the previous page

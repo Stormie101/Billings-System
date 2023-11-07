@@ -50,6 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Tgst = $_POST["Tgst"];
     $Tgross = $_POST["gross_amount"];
     
+    //remove slashes
+
+    $newReq = stripslashes($Req);
+    $newShipV = stripslashes($ShipV);
+    $newFob = stripslashes($Fob);
+    $newSterm = stripslashes($Sterm);
+    $newSdate = stripslashes($Sdate);
+    $newcompName = stripslashes($compName);
+    $newcompStreet = stripslashes($compStreet);
+    $newcompCity = stripslashes($compCity);
+    $newcompState = stripslashes($compState);
 
     if (empty($PODate)) {
       $PODate = "None";
@@ -66,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         for ($i = 0; $i < count($nom); $i++) {
           $num = $nom[$i];
           $POnos = $POno;
-          $description = $desc[$i];
+          $description = htmlspecialchars($desc[$i], ENT_QUOTES);
           $PODates = $PODate[$i];
           $quantitys = $quantity[$i];
           $prices = $price[$i];
@@ -131,10 +142,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <br>
   <div class="vendor-container">
       <h3 id="vendor">VENDOR</h3>
-      <p style="line-height:17px;">'. $compName .'<br>
-      '. $compStreet .'<br>
-      '. $compPcode .' '. $compCity .'<br>
-      '. $compState .'<br>
+      <p style="line-height:17px;">'. $newcompName .'<br>
+      '. $newcompStreet .'<br>
+      '. $compPcode .' '. $newcompCity .'<br>
+      '. $newcompState .'<br>
       T: '. $compTel .' F: '. $compFax .'
       </p>
   </div>
@@ -160,11 +171,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <th style="text-align:center; background-color:#3B4E87;">DELIVERY DATE</th>
       </tr>
       <tr>
-        <td style="text-align:center;">'. $Req .'</td>
-        <td style="text-align:center;">'. $ShipV .'</td>
-        <td style="text-align:center;">'. $Fob .'</td>
-        <td style="text-align:center;">'. $Sterm .'</td>
-        <td style="text-align:center;">'. $Sdate .'</td>
+        <td style="text-align:center;">'. $newReq .'</td>
+        <td style="text-align:center;">'. $newShipV .'</td>
+        <td style="text-align:center;">'. $newFob .'</td>
+        <td style="text-align:center;">'. $newSterm .'</td>
+        <td style="text-align:center;">'. $newSdate .'</td>
       </tr>
     
     </table>

@@ -14,32 +14,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //mention database
 include 'db.php';
 
+    $stmt = $conn->prepare("INSERT INTO client_invoice(att, tel, email, ref, INo, Dates, Terms, SaleP, PO_no, LO_date, Pages, compName, compStreet, compCity, compState, compPcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+    $stmt->bind_param("ssssssssssssssss", $att, $tel, $email, $reference, $INo, $Date, $Terms ,$SaleP, $Pnos, $Ldates, $Page, $compName, $compStreet, $compCity, $compState, $compPcode);
+
 
     //number of quotation
     $numQuotations = $_POST["numQuotations"];
 
     //client detail
-    $att = $_POST["att"];
+    $att = mysqli_real_escape_string($conn,$_POST["att"]);
     $tel = $_POST["tel"];
-    $email = $_POST["email"];
-    $reference = $_POST["reference"];
+    $email = mysqli_real_escape_string($conn,$_POST["email"]);
+    $reference = mysqli_real_escape_string($conn,$_POST["reference"]);
 
     //Quotation detail
     $INo = $_POST["INo"];
     $Date = $_POST["Dates"];
     $Terms = $_POST["Terms"];
-    $SaleP = $_POST["SaleP"];
-    $Pnos = $_POST["Pno"];
+    $SaleP = mysqli_real_escape_string($conn,$_POST["SaleP"]);
+    $Pnos = mysqli_real_escape_string($conn,$_POST["Pno"]);
     $Ldates = $_POST["Ldate"];
     $Page = $_POST["Pages"];
 
     //Vendor Address
-    $compName = $_POST["compName"];
-    $compStreet = $_POST["compStreet"];
-    $compCity = $_POST["compCity"];
-    $compState = $_POST["compState"];
+    $compName = mysqli_real_escape_string($conn,$_POST["compName"]);
+    $compStreet = mysqli_real_escape_string($conn,$_POST["compStreet"]);
+    $compCity = mysqli_real_escape_string($conn,$_POST["compCity"]);
+    $compState = mysqli_real_escape_string($conn,$_POST["compState"]);
     $compPcode = $_POST["compPcode"];
     
+    //remove slashes
+
+    $newatt = stripslashes($att);
+    $newemail = stripslashes($email);
+    $newreference = stripslashes($reference);
+
+    $newSaleP = stripslashes($SaleP);
+    $newPnos = stripslashes($Pnos);
+    $newcompName = stripslashes($compName);
+    $newcompStreet = stripslashes($compStreet);
+    $newcompCity = stripslashes($compCity);
+    $newcompState = stripslashes($compState);
+
     $years = date("Y", strtotime($Date));
     $sets = "KSL/$years/I/$INo";
 
@@ -90,26 +107,26 @@ include 'db.php';
         <p style="font-size: 20px; padding-bottom: 15px; font-weight:bold;">INVOICE</p>
     </header>
 
-    <form action="generatepdfInvoice.php" method="post">
+    <form action="generatepdfInvoice.php" method="post" id="quotation-form">
 
         <!-- Hidden input fields to hold other data -->
-    <input type="hidden" name="att" value="<?php echo $att ?>">
+    <input type="hidden" name="att" value="<?php echo $newatt ?>">
     <input type="hidden" name="tel" value="<?php echo $tel ?>">
-    <input type="hidden" name="email" value="<?php echo $email ?>">
-    <input type="hidden" name="reference" value="<?php echo $reference ?>">
+    <input type="hidden" name="email" value="<?php echo $newemail ?>">
+    <input type="hidden" name="reference" value="<?php echo $newreference ?>">
 
     <input type="hidden" name="INo" value="<?php echo $INo ?>">
     <input type="hidden" name="Date" value="<?php echo $Date ?>">
     <input type="hidden" name="Term" value="<?php echo $Terms ?>">
-    <input type="hidden" name="SaleP" value="<?php echo $SaleP ?>">
-    <input type="hidden" name="Pno" value="<?php echo $Pnos ?>">
+    <input type="hidden" name="SaleP" value="<?php echo $newSaleP ?>">
+    <input type="hidden" name="Pno" value="<?php echo $newPnos ?>">
     <input type="hidden" name="Ldate" value="<?php echo $Ldates ?>">
     <input type="hidden" name="Page" value="<?php echo $Page ?>">
 
-    <input type="hidden" name="compName" value="<?php echo $compName ?>">
-    <input type="hidden" name="compStreet" value="<?php echo $compStreet ?>">
-    <input type="hidden" name="compCity" value="<?php echo $compCity ?>">
-    <input type="hidden" name="compState" value="<?php echo $compState ?>">
+    <input type="hidden" name="compName" value="<?php echo $newcompName ?>">
+    <input type="hidden" name="compStreet" value="<?php echo $newcompStreet ?>">
+    <input type="hidden" name="compCity" value="<?php echo $newcompCity ?>">
+    <input type="hidden" name="compState" value="<?php echo $newcompState ?>">
     <input type="hidden" name="compPcode" value="<?php echo $compPcode ?>">
     <input type="hidden" name="set" value="KSL/<?php echo $years ?>/I/<?php echo $INo ?>">
 
@@ -121,7 +138,7 @@ include 'db.php';
                 <table>
                     <tr>
                         <td><p>ATT:</p></td>
-                        <td><p><?php echo $att ?></p></td>
+                        <td><p><?php echo $newatt ?></p></td>
                     </tr>
                     <tr>
                         <td><p>TEL:</p></td>
@@ -129,11 +146,11 @@ include 'db.php';
                     </tr>
                     <tr>
                         <td><p>EMAIL:</p></td>
-                        <td><p><?php echo $email ?></p></td>
+                        <td><p><?php echo $newemail ?></p></td>
                     </tr>
                     <tr>
                         <td><p>REF:</p></td>
-                        <td><p><?php echo $reference ?></p></td>
+                        <td><p><?php echo $newreference ?></p></td>
                     </tr>
                 </table>
             </div>
@@ -154,11 +171,11 @@ include 'db.php';
                     </tr>
                     <tr>
                         <td><p>Sales Per:</p></td>
-                        <td><p><?php echo $SaleP ?></p></td>
+                        <td><p><?php echo $newSaleP ?></p></td>
                     </tr>
                     <tr>
                         <td><p>P/O No:</p></td>
-                        <td><p><?php echo $Pnos ?></p></td>
+                        <td><p><?php echo $newPnos ?></p></td>
                     </tr>
                     <tr>
                         <td><p>L/O Date:</p></td>
@@ -175,19 +192,19 @@ include 'db.php';
                 <table>
                     <tr>
                         <td><p>Company:</p></td>
-                        <td><p><?php echo $compName ?></p></td>
+                        <td><p><?php echo $newcompName ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Street:</p></td>
-                        <td><p><?php echo $compStreet ?></p></td>
+                        <td><p><?php echo $newcompStreet ?></p></td>
                     </tr>
                     <tr>
                         <td><p>City:</p></td>
-                        <td><p><?php echo $compCity ?></p></td>
+                        <td><p><?php echo $newcompCity ?></p></td>
                     </tr>
                     <tr>
                         <td><p>State:</p></td>
-                        <td><p><?php echo $compState ?></p></td>
+                        <td><p><?php echo $newcompState ?></p></td>
                     </tr>
                     <tr>
                         <td><p>Postcode:</p></td>
@@ -256,7 +273,7 @@ include 'db.php';
         <p>Total Gross:</p>
         <input type="text" id="total_gross" name="gross_amount" value='0.00' readonly>
         <br>
-        <button type="submit" id="print-button">Print</button>
+        <button type="button" id="print-button" onclick="openPdfInNewTab()">Print</button>
 
         <!-- hidden input to transfer data into generate.pdf -->
         <input type="hidden" name="total_amount_calculated" id="total_amount_calculated">
@@ -278,9 +295,16 @@ include 'db.php';
     </footer>
 </body>
 <script>
-document.getElementById("print-button").addEventListener("click", function() {
-    alert("Are you all set to continue?");
-});
+function openPdfInNewTab() {
+    // Submit the form with target set to _blank
+    document.getElementById('quotation-form').target = '_blank';
+    document.getElementById('quotation-form').submit();
+
+    // Redirect to index page after 5 seconds
+    setTimeout(function() {
+        window.location.href = '../successr.html'; // Change the URL as needed
+    }, 1000); // 1000 milliseconds (1 seconds)
+}
 function formatInputs(input) {
     let value = input.value.replace(/[^\d.]/g, '');  // Allow digits and decimal point only
     let parts = value.split('.');
